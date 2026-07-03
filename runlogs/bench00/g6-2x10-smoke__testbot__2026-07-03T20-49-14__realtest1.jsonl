@@ -1,0 +1,4 @@
+{"type":"session","event":"logging_started"}
+{"type":"log","event":"run_metadata","run_id":"realtest1","experimenter":"testbot","rig_id":"bench00","protocol_filename":"g6-2x10-smoke.yaml","protocol_sha256":"ece1441434..."}
+{"type":"fictrac_frame","seq":1,"index":0,"t":100}
+{"type":"log","event":"runner","phase":"sequence-complete"}
