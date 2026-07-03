@@ -1,7 +1,42 @@
-# TEST roster (temporary — restored to the template after verification)
+# CSHL 2026 course roster — the experimenter list for Arena Studio.
+#
+# Arena Studio reads this file at connect (File ▾ GitHub settings must point
+# at this repo): the entry whose rig_id matches the bench's instructor-set
+# bench id pre-fills the Experimenter field, and every name below feeds the
+# experimenter dropdown. The connected controller's MAC (GET_CONTROLLER_INFO
+# 0xC2) is cross-checked against `mac` — a mismatch shows a "bench ≠ roster"
+# warning chip (identity is the BENCH ID; the MAC only verifies it).
+#
+# Instructor: edit this file day-of as student pairings are assigned to
+# benches.
+#   id      short slug — becomes the Experimenter value in run metadata
+#   name    display name (shows in the dropdown)
+#   rig_id  the bench id configured on that bench (bench01 … bench07)
+#   mac     that bench's controller MAC, as shown in Arena Studio's
+#           "Auto-captured" panel / connect log — omit until known
+#           (older firmware reports no MAC; the cross-check just skips)
+#
+# Known controller MACs:
+#   04:E9:E5:12:91:E2   Reiser-lab dev bench (verified 2026-07-03)
+#
+# NOTE (pipeline test week, 2026-07): these are TEST assignments — edit the
+# rig_id / mac for the real bench layout. `michael` is pre-wired to bench01
+# with the dev-bench MAC so a connect on that bench prefills + shows NO chip
+# (MAC match). Setting the dev bench to any OTHER id (e.g. bench02) will
+# prefill that person and — since their mac is blank — show no chip either;
+# to exercise the MISMATCH chip, put the dev MAC on a different bench's entry.
 format_version: 1
 people:
-  - id: testbot
-    name: Test Bot
-    rig_id: bench00
+  - id: michael
+    name: Michael
+    rig_id: bench01
     mac: "04:E9:E5:12:91:E2"
+  - id: frank
+    name: Frank
+    rig_id: bench02
+  - id: isabel
+    name: Isabel
+    rig_id: bench03
+  - id: anna_marie
+    name: Anna Marie
+    rig_id: bench04
