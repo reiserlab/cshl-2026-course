@@ -1,0 +1,16 @@
+# CSHL 2026 course genotype list — the Fly-genotype dropdown in Arena Studio.
+#
+# Arena Studio loads this when the course repo is configured (File ▾ GitHub
+# settings), replacing the lab-wide configs/metadata/genotypes.yaml for the
+# session. Free text is still allowed (it's a datalist, not a locked select).
+# Instructor: edit these to the lines actually used in the course.
+#
+# Seeded from the lab-wide list plus 'wild-type' and 'none'.
+format_version: "1.0"
+genotypes:
+  - "w;UAS-CsChrimson"
+  - "w;+;GMR-Gal4"
+  - "Canton-S"
+  - "w1118"
+  - "wild-type"
+  - "none"
