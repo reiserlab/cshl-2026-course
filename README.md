@@ -38,7 +38,7 @@ runlogs/<bench-id>/<protocol>__<experimenter>__<stamp>__<runid>.jsonl
    fine-grained PAT (**Contents: Read and write**, scoped to THIS repo only)
    and answer **YES** to "Remember this token" (localStorage; a
    sessionStorage-only token evaporates when the tab closes).
-2. **Repo** = `reiserlab/cshl-2026-course-data`.
+2. **Repo** = `reiserlab/cshl-2026-course`.
 3. **Bench id** = `bench01` … `bench07` (must match `roster.yaml`).
 4. Check **"Commit directly to default branch"**.
 5. Connect the arena — the roster entry for this bench pre-fills the
