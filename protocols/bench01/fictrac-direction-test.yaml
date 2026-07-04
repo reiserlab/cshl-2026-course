@@ -30,6 +30,8 @@ experiment_info:
   author: "webDisplayTools"
 
 rig: "./configs/rigs/cshl_g6_2x10_ball.yaml"
+variables:
+  trial_dur: &trial_dur 3
 
 plugins:
   - name: "fictrac"
@@ -44,7 +46,6 @@ plugins:
       offset: 0
 
 experiment:
-  - "fictrac_setup"
   - name: "open_loop_gratings"
     trials:
       - "sq_fwd_05"
@@ -64,21 +65,14 @@ experiment:
     trials:
       - "closed_loop_rotation"
     repetitions: 3
-  - "fictrac_shutdown"
+  - "shutdown"
 
 conditions:
-  # ---- setup: connect the bridge + annotate the log --------------------------
-  - name: "fictrac_setup"
-    commands:
-      - type: "plugin"
-        plugin_name: "fictrac"
-        command_name: "connect"
-      - type: "plugin"
-        plugin_name: "log"
-        command_name: "log"
-        params:
-          message: "closed-loop + open-loop direction/speed test starting"
-          level: "INFO"
+  # NOTE: no explicit fictrac connect/disconnect. The runner auto-connects the
+  # bridge at run start, and — crucially — must NOT disconnect it at the end:
+  # the recorded-run log is exported from the bridge AFTER the sequence finishes,
+  # so a protocol-level disconnect would close the bridge before the log commits
+  # (that broke the log on the first bench run). Let the run own the lifecycle.
 
   # ---- BLOCK 1: open-loop drifting gratings (Mode 2) -------------------------
   # frame_rate is the frame-advance rate in Hz; its SIGN is the drift direction
@@ -92,7 +86,7 @@ conditions:
         command_name: "trialParams"
         pattern: "grating_sq"
         pattern_ID: 2
-        duration: 10
+        duration: *trial_dur
         mode: 2
         frame_index: 0
         frame_rate: 5
@@ -105,7 +99,7 @@ conditions:
         command_name: "trialParams"
         pattern: "grating_sq"
         pattern_ID: 2
-        duration: 10
+        duration: *trial_dur
         mode: 2
         frame_index: 0
         frame_rate: 15
@@ -118,7 +112,7 @@ conditions:
         command_name: "trialParams"
         pattern: "grating_sq"
         pattern_ID: 2
-        duration: 10
+        duration: *trial_dur
         mode: 2
         frame_index: 0
         frame_rate: 30
@@ -132,7 +126,7 @@ conditions:
         command_name: "trialParams"
         pattern: "grating_sq"
         pattern_ID: 2
-        duration: 10
+        duration: *trial_dur
         mode: 2
         frame_index: 0
         frame_rate: -5
@@ -145,7 +139,7 @@ conditions:
         command_name: "trialParams"
         pattern: "grating_sq"
         pattern_ID: 2
-        duration: 10
+        duration: *trial_dur
         mode: 2
         frame_index: 0
         frame_rate: -15
@@ -158,7 +152,7 @@ conditions:
         command_name: "trialParams"
         pattern: "grating_sq"
         pattern_ID: 2
-        duration: 10
+        duration: *trial_dur
         mode: 2
         frame_index: 0
         frame_rate: -30
@@ -173,7 +167,7 @@ conditions:
         command_name: "trialParams"
         pattern: "grating_sine"
         pattern_ID: 3
-        duration: 10
+        duration: *trial_dur
         mode: 2
         frame_index: 0
         frame_rate: 5
@@ -186,7 +180,7 @@ conditions:
         command_name: "trialParams"
         pattern: "grating_sine"
         pattern_ID: 3
-        duration: 10
+        duration: *trial_dur
         mode: 2
         frame_index: 0
         frame_rate: 15
@@ -199,7 +193,7 @@ conditions:
         command_name: "trialParams"
         pattern: "grating_sine"
         pattern_ID: 3
-        duration: 10
+        duration: *trial_dur
         mode: 2
         frame_index: 0
         frame_rate: 30
@@ -213,7 +207,7 @@ conditions:
         command_name: "trialParams"
         pattern: "grating_sine"
         pattern_ID: 3
-        duration: 10
+        duration: *trial_dur
         mode: 2
         frame_index: 0
         frame_rate: -5
@@ -226,7 +220,7 @@ conditions:
         command_name: "trialParams"
         pattern: "grating_sine"
         pattern_ID: 3
-        duration: 10
+        duration: *trial_dur
         mode: 2
         frame_index: 0
         frame_rate: -15
@@ -239,7 +233,7 @@ conditions:
         command_name: "trialParams"
         pattern: "grating_sine"
         pattern_ID: 3
-        duration: 10
+        duration: *trial_dur
         mode: 2
         frame_index: 0
         frame_rate: -30
@@ -274,10 +268,11 @@ conditions:
         command_name: "stopClosedLoop"
 
   # ---- shutdown --------------------------------------------------------------
-  - name: "fictrac_shutdown"
+  # Blank the arena only. Do NOT disconnect the bridge here — the run-log export
+  # runs after the sequence, and needs the bridge still connected.
+  - name: "shutdown"
     commands:
       - type: "controller"
         command_name: "stopDisplay"
-      - type: "plugin"
-        plugin_name: "fictrac"
-        command_name: "disconnect"
+      - type: "controller"
+        command_name: "allOff"
