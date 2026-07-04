@@ -22,9 +22,8 @@
 # NOTE (pipeline test week, 2026-07): these are TEST assignments — edit the
 # rig_id / mac for the real bench layout. `michael` is pre-wired to bench01
 # with the dev-bench MAC so a connect on that bench prefills + shows NO chip
-# (MAC match). Setting the dev bench to any OTHER id (e.g. bench02) will
-# prefill that person and — since their mac is blank — show no chip either;
-# to exercise the MISMATCH chip, put the dev MAC on a different bench's entry.
+# (MAC match). `guest` has no bench — it's just a always-available name in the
+# experimenter dropdown.
 format_version: 1
 people:
   - id: michael
@@ -37,6 +36,8 @@ people:
   - id: isabel
     name: Isabel
     rig_id: bench03
-  - id: hannah_marie
-    name: Hannah Marie
+  - id: anna_marie
+    name: Anna Marie
     rig_id: bench04
+  - id: guest
+    name: Guest
