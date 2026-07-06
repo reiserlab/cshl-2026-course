@@ -36,9 +36,9 @@ version: 3
 # ============================================================================
 
 experiment_info:
-  name: "FT_shorter"
-  author: "MBR"
-  date_created: 2026-07-04
+  name: "Fictrac_test_short"
+  author: "webDisplayTools"
+  date_created: 2026-07-05
 
 rig: "./configs/rigs/cshl_g6_2x10_ball.yaml"
 
@@ -61,7 +61,7 @@ variables:
   # open_dur is unambiguous. The closed-loop trial binds BOTH its trialParams
   # duration and its bracketing wait to cl_dur, so they move together.
   open_dur: &open_dur 5 # Block 1 open-loop grating trials (10 s each)
-  cl_dur: &cl_dur 6 # Block 2 closed-loop rotation trials (30 s each)
+  cl_dur: &cl_dur 8 # Block 2 closed-loop rotation trials (30 s each)
 
 experiment:
   - name: "open_loop_gratings"
