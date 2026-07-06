@@ -1,16 +1,29 @@
-# CSHL 2026 course genotype list — the Fly-genotype dropdown in Arena Studio.
+# CSHL 2026 course genotype list -- the Fly-genotype dropdown in Arena Studio.
 #
-# Arena Studio loads this when the course repo is configured (File ▾ GitHub
+# Arena Studio loads this when the course repo is configured (File > GitHub
 # settings), replacing the lab-wide configs/metadata/genotypes.yaml for the
-# session. Free text is still allowed (it's a datalist, not a locked select).
-# Instructor: edit these to the lines actually used in the course.
+# session. Free text is still allowed; this list provides the expected course
+# shorthand.
 #
-# Seeded from the lab-wide list plus 'wild-type' and 'none'.
+# Shorthand convention: "driver > effector". Parentheses carry the stock or
+# split-GAL4 identifier when useful. See docs/genotypes.md for full genotypes,
+# sex availability, food/cross conditions, and source notes.
+#
+# Source: Ed Rogers, "Flies For CHSL 2026" Google Sheet, refreshed 2026-07-06.
 format_version: "1.0"
 genotypes:
-  - "w;UAS-CsChrimson"
-  - "w;+;GMR-Gal4"
-  - "Canton-S"
-  - "w1118"
-  - "wild-type"
+  - "CS x w1118"
+  - "empty split > Kir2.1"
+  - "T4/T5 (SS00324) > Kir2.1"
+  - "empty split > CsChrimson"
+  - "LC-6 (R_42E06) > CsChrimson"
+  - "P1 (15A01;71G01) > CsChrimson"
+  - "Hot Cell (HC-Gal4) > CsChrimson"
+  - "pC1_19 (SS100895) > CsChrimson"
+  - "pC1_17a,b (SS102696) > CsChrimson"
+  - "MDN-1 (VT050660) > CsChrimson"
+  - "NP225 > CsChrimson"
+  - "LC-24 (SS02638) > CsChrimson"
+  - "Avoidance (SS01159) > CsChrimson"
+  - "Giant Fiber (17A04-AD;68A06-DBD) > CsChrimson"
   - "none"
