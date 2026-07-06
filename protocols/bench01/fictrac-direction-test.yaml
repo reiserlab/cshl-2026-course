@@ -60,8 +60,8 @@ variables:
   # whole block. Open-loop trials have a single duration field (no wait), so
   # open_dur is unambiguous. The closed-loop trial binds BOTH its trialParams
   # duration and its bracketing wait to cl_dur, so they move together.
-  open_dur: &open_dur 5 # Block 1 open-loop grating trials (10 s each)
-  cl_dur: &cl_dur 8 # Block 2 closed-loop rotation trials (30 s each)
+  open_dur: &open_dur 4 # Block 1 open-loop grating trials (10 s each)
+  cl_dur: &cl_dur 6 # Block 2 closed-loop rotation trials (30 s each)
 
 experiment:
   - name: "open_loop_gratings"
