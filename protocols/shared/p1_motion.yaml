@@ -15,7 +15,7 @@ rig: "./configs/rigs/cshl_g6_2x10_ball.yaml"
 variables:
   pre_dur: &pre_dur 2
   loom_test_dur: &loom_test_dur 7
-  loom_test_rate: &loom_test_rate 5
+  loom_test_rate: &loom_test_rate 10
   post_dur: &post_dur 2
 
 experiment:
@@ -61,7 +61,7 @@ conditions:
         pattern_ID: 1
         duration: *post_dur
         mode: 2
-        frame_index: 34
+        frame_index: 69
         frame_rate: 0
         gain: 0
       - type: "wait"
