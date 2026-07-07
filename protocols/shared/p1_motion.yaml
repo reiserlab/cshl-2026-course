@@ -1,71 +1,428 @@
 version: 3
 
-# P1 motion test protocol.
+# P1 motion loom preview.
 #
-# Minimal wrapper for checking the first loom pattern offset on the physical
-# arena before committing to the full optomotor + looming pattern set.
+# Visual-only preview for checking the full dark loom, annulus, and fixed-
+# footprint darkening controls before building the final optogenetic protocol.
+# The final P1 protocol will use a 0.5 s LED prestim before each trial.
 
 experiment_info:
-  name: "P1 motion"
+  name: "P1 motion loom preview"
   author: "Reiser Lab"
   date_created: 2026-07-07
 
 rig: "./configs/rigs/cshl_g6_2x10_ball.yaml"
 
 variables:
-  pre_dur: &pre_dur 2
-  loom_test_dur: &loom_test_dur 7
-  loom_test_rate: &loom_test_rate 10
-  post_dur: &post_dur 2
+  preview_dur: &preview_dur 7
+  preview_rate: &preview_rate 10
+  hold_dur: &hold_dur 0.5
+  blank_dur: &blank_dur 0.5
 
 experiment:
-  - "pre_gray"
-  - "loom_dark_front_test"
-  - "post_gray"
+  - name: "loom_preview"
+    trials:
+      - "preview_loom_disc_f"
+      - "preview_loom_disc_l45"
+      - "preview_loom_disc_r45"
+      - "preview_loom_disc_l90"
+      - "preview_loom_disc_r90"
+      - "preview_loom_ann_f"
+      - "preview_loom_ann_l45"
+      - "preview_loom_ann_r45"
+      - "preview_loom_ann_l90"
+      - "preview_loom_ann_r90"
+      - "preview_loom_dim_f"
+      - "preview_loom_dim_l45"
+      - "preview_loom_dim_r45"
+      - "preview_loom_dim_l90"
+      - "preview_loom_dim_r90"
+    repetitions: 1
+    intertrial: "blank"
   - "shutdown"
 
 conditions:
-  - name: "pre_gray"
+  - name: "blank"
+    commands:
+      - type: "controller"
+        command_name: "allOff"
+      - type: "wait"
+        duration: *blank_dur
+
+  - name: "preview_loom_disc_f"
     commands:
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p1_loom_dark_front_test"
+        pattern: "p1_loom_disc_f"
         pattern_ID: 1
-        duration: *pre_dur
+        duration: *preview_dur
         mode: 2
         frame_index: 0
-        frame_rate: 0
+        frame_rate: *preview_rate
         gain: 0
       - type: "wait"
-        duration: *pre_dur
-
-  - name: "loom_dark_front_test"
-    commands:
+        duration: *preview_dur
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p1_loom_dark_front_test"
+        pattern: "p1_loom_disc_f"
         pattern_ID: 1
-        duration: *loom_test_dur
-        mode: 2
-        frame_index: 0
-        frame_rate: *loom_test_rate
-        gain: 0
-      - type: "wait"
-        duration: *loom_test_dur
-
-  - name: "post_gray"
-    commands:
-      - type: "controller"
-        command_name: "trialParams"
-        pattern: "p1_loom_dark_front_test"
-        pattern_ID: 1
-        duration: *post_dur
+        duration: *hold_dur
         mode: 2
         frame_index: 69
         frame_rate: 0
         gain: 0
       - type: "wait"
-        duration: *post_dur
+        duration: *hold_dur
+
+  - name: "preview_loom_disc_l45"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_disc_l45"
+        pattern_ID: 2
+        duration: *preview_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *preview_rate
+        gain: 0
+      - type: "wait"
+        duration: *preview_dur
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_disc_l45"
+        pattern_ID: 2
+        duration: *hold_dur
+        mode: 2
+        frame_index: 69
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *hold_dur
+
+  - name: "preview_loom_disc_r45"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_disc_r45"
+        pattern_ID: 3
+        duration: *preview_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *preview_rate
+        gain: 0
+      - type: "wait"
+        duration: *preview_dur
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_disc_r45"
+        pattern_ID: 3
+        duration: *hold_dur
+        mode: 2
+        frame_index: 69
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *hold_dur
+
+  - name: "preview_loom_disc_l90"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_disc_l90"
+        pattern_ID: 4
+        duration: *preview_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *preview_rate
+        gain: 0
+      - type: "wait"
+        duration: *preview_dur
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_disc_l90"
+        pattern_ID: 4
+        duration: *hold_dur
+        mode: 2
+        frame_index: 69
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *hold_dur
+
+  - name: "preview_loom_disc_r90"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_disc_r90"
+        pattern_ID: 5
+        duration: *preview_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *preview_rate
+        gain: 0
+      - type: "wait"
+        duration: *preview_dur
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_disc_r90"
+        pattern_ID: 5
+        duration: *hold_dur
+        mode: 2
+        frame_index: 69
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *hold_dur
+
+  - name: "preview_loom_ann_f"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_ann_f"
+        pattern_ID: 6
+        duration: *preview_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *preview_rate
+        gain: 0
+      - type: "wait"
+        duration: *preview_dur
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_ann_f"
+        pattern_ID: 6
+        duration: *hold_dur
+        mode: 2
+        frame_index: 69
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *hold_dur
+
+  - name: "preview_loom_ann_l45"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_ann_l45"
+        pattern_ID: 7
+        duration: *preview_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *preview_rate
+        gain: 0
+      - type: "wait"
+        duration: *preview_dur
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_ann_l45"
+        pattern_ID: 7
+        duration: *hold_dur
+        mode: 2
+        frame_index: 69
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *hold_dur
+
+  - name: "preview_loom_ann_r45"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_ann_r45"
+        pattern_ID: 8
+        duration: *preview_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *preview_rate
+        gain: 0
+      - type: "wait"
+        duration: *preview_dur
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_ann_r45"
+        pattern_ID: 8
+        duration: *hold_dur
+        mode: 2
+        frame_index: 69
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *hold_dur
+
+  - name: "preview_loom_ann_l90"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_ann_l90"
+        pattern_ID: 9
+        duration: *preview_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *preview_rate
+        gain: 0
+      - type: "wait"
+        duration: *preview_dur
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_ann_l90"
+        pattern_ID: 9
+        duration: *hold_dur
+        mode: 2
+        frame_index: 69
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *hold_dur
+
+  - name: "preview_loom_ann_r90"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_ann_r90"
+        pattern_ID: 10
+        duration: *preview_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *preview_rate
+        gain: 0
+      - type: "wait"
+        duration: *preview_dur
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_ann_r90"
+        pattern_ID: 10
+        duration: *hold_dur
+        mode: 2
+        frame_index: 69
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *hold_dur
+
+  - name: "preview_loom_dim_f"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_dim_f"
+        pattern_ID: 11
+        duration: *preview_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *preview_rate
+        gain: 0
+      - type: "wait"
+        duration: *preview_dur
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_dim_f"
+        pattern_ID: 11
+        duration: *hold_dur
+        mode: 2
+        frame_index: 69
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *hold_dur
+
+  - name: "preview_loom_dim_l45"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_dim_l45"
+        pattern_ID: 12
+        duration: *preview_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *preview_rate
+        gain: 0
+      - type: "wait"
+        duration: *preview_dur
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_dim_l45"
+        pattern_ID: 12
+        duration: *hold_dur
+        mode: 2
+        frame_index: 69
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *hold_dur
+
+  - name: "preview_loom_dim_r45"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_dim_r45"
+        pattern_ID: 13
+        duration: *preview_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *preview_rate
+        gain: 0
+      - type: "wait"
+        duration: *preview_dur
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_dim_r45"
+        pattern_ID: 13
+        duration: *hold_dur
+        mode: 2
+        frame_index: 69
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *hold_dur
+
+  - name: "preview_loom_dim_l90"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_dim_l90"
+        pattern_ID: 14
+        duration: *preview_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *preview_rate
+        gain: 0
+      - type: "wait"
+        duration: *preview_dur
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_dim_l90"
+        pattern_ID: 14
+        duration: *hold_dur
+        mode: 2
+        frame_index: 69
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *hold_dur
+
+  - name: "preview_loom_dim_r90"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_dim_r90"
+        pattern_ID: 15
+        duration: *preview_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *preview_rate
+        gain: 0
+      - type: "wait"
+        duration: *preview_dur
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_dim_r90"
+        pattern_ID: 15
+        duration: *hold_dur
+        mode: 2
+        frame_index: 69
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *hold_dur
 
   - name: "shutdown"
     commands:
