@@ -1,0 +1,77 @@
+version: 3
+
+# P1 motion test protocol.
+#
+# Minimal wrapper for checking the first loom pattern offset on the physical
+# arena before committing to the full optomotor + looming pattern set.
+
+experiment_info:
+  name: "P1 motion"
+  author: "Reiser Lab"
+  date_created: 2026-07-07
+
+rig: "./configs/rigs/cshl_g6_2x10_ball.yaml"
+
+variables:
+  pre_dur: &pre_dur 2
+  loom_test_dur: &loom_test_dur 7
+  loom_test_rate: &loom_test_rate 5
+  post_dur: &post_dur 2
+
+experiment:
+  - "pre_gray"
+  - "loom_dark_front_test"
+  - "post_gray"
+  - "shutdown"
+
+conditions:
+  - name: "pre_gray"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_dark_front_test"
+        pattern_ID: 1
+        duration: *pre_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *pre_dur
+
+  - name: "loom_dark_front_test"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_dark_front_test"
+        pattern_ID: 1
+        duration: *loom_test_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *loom_test_rate
+        gain: 0
+      - type: "wait"
+        duration: *loom_test_dur
+
+  - name: "post_gray"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1_loom_dark_front_test"
+        pattern_ID: 1
+        duration: *post_dur
+        mode: 2
+        frame_index: 34
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *post_dur
+
+  - name: "shutdown"
+    commands:
+      - type: "controller"
+        command_name: "stopDisplay"
+      - type: "controller"
+        command_name: "allOff"
+      - type: "wait"
+        duration: 1
