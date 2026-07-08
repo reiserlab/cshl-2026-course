@@ -1,0 +1,248 @@
+version: 3
+
+# P100 rig test: 60 second controller-only checkout for CSHL course rigs.
+#
+# Purpose:
+#   - verify that the arena can display dim and bright full-field patterns
+#   - verify panel addressing/orientation with an obvious panel map
+#   - verify slow open-loop motion with a moving bar
+#   - verify optogenetic LED drive levels at 2, 5, 10, 20, and 40 percent
+#
+# This protocol deliberately has no FicTrac plugin and no closed-loop commands.
+# It should run on any rig with only the G6 controller connected.
+#
+# Timing is intentionally slow and human-readable. Nominal command/wait total is
+# exactly 60 s, before small runner command overhead.
+
+experiment_info:
+  name: "p100_rig_test"
+  author: "Reiser Lab"
+  date_created: 2026-07-08
+
+rig: "./configs/rigs/cshl_g6_2x10.yaml"
+
+variables:
+  start_dark_dur: &start_dark_dur 3
+  dim_dur: &dim_dur 6
+  bright_dur: &bright_dur 6
+  panel_map_dur: &panel_map_dur 8
+  motion_dur: &motion_dur 12
+  led_off_gap: &led_off_gap 0.5
+  led_on_dur: &led_on_dur 3.5
+  shutdown_dur: &shutdown_dur 5
+
+experiment:
+  - "start_dark_all_off"
+  - "visual_1_dim_full_field"
+  - "visual_2_bright_full_field"
+  - "visual_3_panel_map"
+  - "visual_4_slow_bar_motion"
+  - "led_level_02_percent"
+  - "led_level_05_percent"
+  - "led_level_10_percent"
+  - "led_level_20_percent"
+  - "led_level_40_percent"
+  - "shutdown_all_off"
+
+conditions:
+  - name: "start_dark_all_off"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "stopDisplay"
+      - type: "controller"
+        command_name: "allOff"
+      - type: "wait"
+        duration: *start_dark_dur
+
+  - name: "visual_1_dim_full_field"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p100_dim"
+        pattern_ID: 1
+        duration: *dim_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *dim_dur
+
+  - name: "visual_2_bright_full_field"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p100_bright"
+        pattern_ID: 2
+        duration: *bright_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *bright_dur
+
+  - name: "visual_3_panel_map"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p100_panel_map"
+        pattern_ID: 3
+        duration: *panel_map_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *panel_map_dur
+
+  - name: "visual_4_slow_bar_motion"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p100_slow_bar"
+        pattern_ID: 4
+        duration: *motion_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 10
+        gain: 0
+      - type: "wait"
+        duration: *motion_dur
+
+  - name: "led_level_02_percent"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p100_dim"
+        pattern_ID: 1
+        duration: 4
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *led_off_gap
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 2
+      - type: "wait"
+        duration: *led_on_dur
+
+  - name: "led_level_05_percent"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p100_dim"
+        pattern_ID: 1
+        duration: 4
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *led_off_gap
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 5
+      - type: "wait"
+        duration: *led_on_dur
+
+  - name: "led_level_10_percent"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p100_dim"
+        pattern_ID: 1
+        duration: 4
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *led_off_gap
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 10
+      - type: "wait"
+        duration: *led_on_dur
+
+  - name: "led_level_20_percent"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p100_dim"
+        pattern_ID: 1
+        duration: 4
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *led_off_gap
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 20
+      - type: "wait"
+        duration: *led_on_dur
+
+  - name: "led_level_40_percent"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p100_dim"
+        pattern_ID: 1
+        duration: 4
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *led_off_gap
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 40
+      - type: "wait"
+        duration: *led_on_dur
+
+  - name: "shutdown_all_off"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "stopDisplay"
+      - type: "controller"
+        command_name: "allOff"
+      - type: "wait"
+        duration: *shutdown_dur
