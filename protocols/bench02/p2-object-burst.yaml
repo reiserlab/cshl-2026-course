@@ -45,7 +45,7 @@ plugins:
       offset: 0
 
 variables:
-  opto_percent: &opto_percent 20
+  opto_percent: &opto_percent 40
   start_bg_dur: &start_bg_dur 3
   base_fix_dur: &base_fix_dur 20
   burst_dur: &burst_dur 0.5
@@ -62,84 +62,84 @@ experiment:
   - name: "baseline"
     trials:
       - "base_bar"
-    repetitions: 3
+    repetitions: 1
     randomize: false
   - name: "baseline_sweeps_36"
     trials:
       - "sw_36_cw"
       - "sw_36_ccw"
-    repetitions: 3
+    repetitions: 1
     randomize: false
   - name: "baseline_sweeps_72"
     trials:
       - "sw_72_cw"
       - "sw_72_ccw"
-    repetitions: 3
+    repetitions: 1
     randomize: false
   - name: "baseline_sweeps_144"
     trials:
       - "sw_144_cw"
       - "sw_144_ccw"
-    repetitions: 3
+    repetitions: 1
     randomize: false
   - name: "opto_sweeps_36"
     trials:
       - "burst_sw_36_cw"
       - "burst_sw_36_ccw"
-    repetitions: 3
+    repetitions: 1
     randomize: false
   - name: "opto_sweeps_72"
     trials:
       - "burst_sw_72_cw"
       - "burst_sw_72_ccw"
-    repetitions: 3
+    repetitions: 1
     randomize: false
   - name: "opto_sweeps_144"
     trials:
       - "burst_sw_144_cw"
       - "burst_sw_144_ccw"
-    repetitions: 3
+    repetitions: 1
     randomize: false
   - name: "opto_single_bar_cl"
     trials:
       - "burst_cl_bar"
-    repetitions: 3
+    repetitions: 1
     randomize: false
   - name: "choice_small"
     trials:
       - "burst_ab_small_l"
       - "burst_ab_small_r"
-    repetitions: 2
+    repetitions: 1
     randomize: false
   - name: "choice_bpole"
     trials:
       - "burst_ab_bpole_l"
       - "burst_ab_bpole_r"
-    repetitions: 2
+    repetitions: 1
     randomize: false
   - name: "choice_bright"
     trials:
       - "burst_ab_bright_l"
       - "burst_ab_bright_r"
-    repetitions: 2
+    repetitions: 1
     randomize: false
   - name: "choice_dark"
     trials:
       - "burst_ab_dark_l"
       - "burst_ab_dark_r"
-    repetitions: 2
+    repetitions: 1
     randomize: false
   - name: "choice_edge"
     trials:
       - "burst_ab_edge_l"
       - "burst_ab_edge_r"
-    repetitions: 2
+    repetitions: 1
     randomize: false
   - name: "choice_peak"
     trials:
       - "burst_ab_peak_l"
       - "burst_ab_peak_r"
-    repetitions: 2
+    repetitions: 1
     randomize: false
   - "shutdown"
 
