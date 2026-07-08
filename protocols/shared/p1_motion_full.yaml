@@ -13,7 +13,7 @@ version: 3
 # Approximate runtime: under 7 min before metadata/setup overhead.
 
 experiment_info:
-  name: "p1_motion"
+  name: "p1_motion_full"
   author: "Reiser Lab"
   date_created: 2026-07-07
 

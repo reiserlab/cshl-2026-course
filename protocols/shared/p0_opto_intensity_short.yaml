@@ -11,18 +11,18 @@ version: 3
 # Trial timing:
 #   grating trials are 6.0 s: LED on from 2.0 to 3.0 s.
 #   bar trials are 3.0 s: LED on from 1.25 to 1.75 s, centered on the front.
-#   each block alternates CW and CCW, with 4 repetitions of each direction.
+#   each block alternates CW and CCW, with 1 repetition of each direction.
 #
 # LED levels are named level_1 ... level_5 so the actual percentages can be
 # adjusted in one place. Sham blocks at the beginning and end execute the same
 # LED command timing with percent 0.
 #
 # Approximate runtime with 1 s intertrial blanks:
-#   7 blocks * 4 reps * (2 grating trials * 7 s + 2 bar trials * 4 s)
-#   = 616 s, about 10.3 min.
+#   7 blocks * 1 rep * (2 grating trials * 7 s + 2 bar trials * 4 s)
+#   = 154 s, about 2.6 min.
 
 experiment_info:
-  name: "P0 opto intensity"
+  name: "p0_opto_intensity_short"
   author: "Reiser Lab"
   date_created: 2026-07-07
 
@@ -59,7 +59,7 @@ experiment:
       - "grating_ccw_sham_pre"
       - "bar_cw_sham_pre"
       - "bar_ccw_sham_pre"
-    repetitions: 4
+    repetitions: 1
     intertrial: "blank_1s"
 
   - name: "level_1"
@@ -68,7 +68,7 @@ experiment:
       - "grating_ccw_level_1"
       - "bar_cw_level_1"
       - "bar_ccw_level_1"
-    repetitions: 4
+    repetitions: 1
     intertrial: "blank_1s"
 
   - name: "level_2"
@@ -77,7 +77,7 @@ experiment:
       - "grating_ccw_level_2"
       - "bar_cw_level_2"
       - "bar_ccw_level_2"
-    repetitions: 4
+    repetitions: 1
     intertrial: "blank_1s"
 
   - name: "level_3"
@@ -86,7 +86,7 @@ experiment:
       - "grating_ccw_level_3"
       - "bar_cw_level_3"
       - "bar_ccw_level_3"
-    repetitions: 4
+    repetitions: 1
     intertrial: "blank_1s"
 
   - name: "level_4"
@@ -95,7 +95,7 @@ experiment:
       - "grating_ccw_level_4"
       - "bar_cw_level_4"
       - "bar_ccw_level_4"
-    repetitions: 4
+    repetitions: 1
     intertrial: "blank_1s"
 
   - name: "level_5"
@@ -104,7 +104,7 @@ experiment:
       - "grating_ccw_level_5"
       - "bar_cw_level_5"
       - "bar_ccw_level_5"
-    repetitions: 4
+    repetitions: 1
     intertrial: "blank_1s"
 
   - name: "sham_post"
@@ -113,7 +113,7 @@ experiment:
       - "grating_ccw_sham_post"
       - "bar_cw_sham_post"
       - "bar_ccw_sham_post"
-    repetitions: 4
+    repetitions: 1
     intertrial: "blank_1s"
 
   - "shutdown"

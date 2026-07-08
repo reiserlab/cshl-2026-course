@@ -1,0 +1,898 @@
+version: 3
+
+# P0 optogenetic intensity calibration.
+#
+# Visual set:
+#   grating: 36 deg/cycle, 20 frames/cycle, 12-on/8-off square grating.
+#            160 frames/s gives 8 cycles/s temporal frequency.
+#   bar:     10 px dark bar on bright background, frame 0 behind, frame 100 front.
+#            50 frames/s gives 90 deg/s on a 200-frame azimuth pattern.
+#
+# Trial timing:
+#   grating trials are 6.0 s: LED on from 2.0 to 3.0 s.
+#   bar trials are 3.0 s: LED on from 1.25 to 1.75 s, centered on the front.
+#   each block alternates CW and CCW, with 4 repetitions of each direction.
+#
+# LED levels are named level_1 ... level_5 so the actual percentages can be
+# adjusted in one place. Sham blocks at the beginning and end execute the same
+# LED command timing with percent 0.
+#
+# Approximate runtime with 1 s intertrial blanks:
+#   7 blocks * 4 reps * (2 grating trials * 7 s + 2 bar trials * 4 s)
+#   = 616 s, about 10.3 min.
+
+experiment_info:
+  name: "p0_opto_intensity_full"
+  author: "Reiser Lab"
+  date_created: 2026-07-07
+
+rig: "./configs/rigs/cshl_g6_2x10_ball.yaml"
+
+variables:
+  grating_dur: &grating_dur 6
+  grating_led_pre: &grating_led_pre 2
+  grating_led_on: &grating_led_on 1
+  grating_led_post: &grating_led_post 3
+  grating_frame_rate: &grating_frame_rate 160
+
+  bar_dur: &bar_dur 3
+  bar_led_pre: &bar_led_pre 1.25
+  bar_led_on: &bar_led_on 0.5
+  bar_led_post: &bar_led_post 1.25
+  bar_frame_rate: &bar_frame_rate 50
+  bar_start_neg135: &bar_start_neg135 25
+  bar_start_pos135: &bar_start_pos135 175
+
+  intertrial_dur: &intertrial_dur 1
+
+  sham_level: &sham_level 0
+  level_1: &level_1 1
+  level_2: &level_2 5
+  level_3: &level_3 10
+  level_4: &level_4 20
+  level_5: &level_5 40
+
+experiment:
+  - name: "sham_pre"
+    trials:
+      - "grating_cw_sham_pre"
+      - "grating_ccw_sham_pre"
+      - "bar_cw_sham_pre"
+      - "bar_ccw_sham_pre"
+    repetitions: 4
+    intertrial: "blank_1s"
+
+  - name: "level_1"
+    trials:
+      - "grating_cw_level_1"
+      - "grating_ccw_level_1"
+      - "bar_cw_level_1"
+      - "bar_ccw_level_1"
+    repetitions: 4
+    intertrial: "blank_1s"
+
+  - name: "level_2"
+    trials:
+      - "grating_cw_level_2"
+      - "grating_ccw_level_2"
+      - "bar_cw_level_2"
+      - "bar_ccw_level_2"
+    repetitions: 4
+    intertrial: "blank_1s"
+
+  - name: "level_3"
+    trials:
+      - "grating_cw_level_3"
+      - "grating_ccw_level_3"
+      - "bar_cw_level_3"
+      - "bar_ccw_level_3"
+    repetitions: 4
+    intertrial: "blank_1s"
+
+  - name: "level_4"
+    trials:
+      - "grating_cw_level_4"
+      - "grating_ccw_level_4"
+      - "bar_cw_level_4"
+      - "bar_ccw_level_4"
+    repetitions: 4
+    intertrial: "blank_1s"
+
+  - name: "level_5"
+    trials:
+      - "grating_cw_level_5"
+      - "grating_ccw_level_5"
+      - "bar_cw_level_5"
+      - "bar_ccw_level_5"
+    repetitions: 4
+    intertrial: "blank_1s"
+
+  - name: "sham_post"
+    trials:
+      - "grating_cw_sham_post"
+      - "grating_ccw_sham_post"
+      - "bar_cw_sham_post"
+      - "bar_ccw_sham_post"
+    repetitions: 4
+    intertrial: "blank_1s"
+
+  - "shutdown"
+
+conditions:
+  - name: "blank_1s"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "stopDisplay"
+      - type: "controller"
+        command_name: "allOff"
+      - type: "wait"
+        duration: *intertrial_dur
+
+  - name: "grating_cw_sham_pre"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_grating_36deg"
+        pattern_ID: 5
+        duration: *grating_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *grating_frame_rate
+        gain: 0
+      - type: "wait"
+        duration: *grating_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *sham_level
+      - type: "wait"
+        duration: *grating_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *grating_led_post
+
+  - name: "grating_ccw_sham_pre"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_grating_36deg"
+        pattern_ID: 5
+        duration: *grating_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: -160
+        gain: 0
+      - type: "wait"
+        duration: *grating_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *sham_level
+      - type: "wait"
+        duration: *grating_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *grating_led_post
+
+  - name: "bar_cw_sham_pre"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_bar10_dark"
+        pattern_ID: 6
+        duration: *bar_dur
+        mode: 2
+        frame_index: *bar_start_neg135
+        frame_rate: *bar_frame_rate
+        gain: 0
+      - type: "wait"
+        duration: *bar_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *sham_level
+      - type: "wait"
+        duration: *bar_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *bar_led_post
+
+  - name: "bar_ccw_sham_pre"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_bar10_dark"
+        pattern_ID: 6
+        duration: *bar_dur
+        mode: 2
+        frame_index: *bar_start_pos135
+        frame_rate: -50
+        gain: 0
+      - type: "wait"
+        duration: *bar_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *sham_level
+      - type: "wait"
+        duration: *bar_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *bar_led_post
+
+  - name: "grating_cw_level_1"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_grating_36deg"
+        pattern_ID: 5
+        duration: *grating_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *grating_frame_rate
+        gain: 0
+      - type: "wait"
+        duration: *grating_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *level_1
+      - type: "wait"
+        duration: *grating_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *grating_led_post
+
+  - name: "grating_ccw_level_1"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_grating_36deg"
+        pattern_ID: 5
+        duration: *grating_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: -160
+        gain: 0
+      - type: "wait"
+        duration: *grating_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *level_1
+      - type: "wait"
+        duration: *grating_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *grating_led_post
+
+  - name: "bar_cw_level_1"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_bar10_dark"
+        pattern_ID: 6
+        duration: *bar_dur
+        mode: 2
+        frame_index: *bar_start_neg135
+        frame_rate: *bar_frame_rate
+        gain: 0
+      - type: "wait"
+        duration: *bar_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *level_1
+      - type: "wait"
+        duration: *bar_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *bar_led_post
+
+  - name: "bar_ccw_level_1"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_bar10_dark"
+        pattern_ID: 6
+        duration: *bar_dur
+        mode: 2
+        frame_index: *bar_start_pos135
+        frame_rate: -50
+        gain: 0
+      - type: "wait"
+        duration: *bar_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *level_1
+      - type: "wait"
+        duration: *bar_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *bar_led_post
+
+  - name: "grating_cw_level_2"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_grating_36deg"
+        pattern_ID: 5
+        duration: *grating_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *grating_frame_rate
+        gain: 0
+      - type: "wait"
+        duration: *grating_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *level_2
+      - type: "wait"
+        duration: *grating_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *grating_led_post
+
+  - name: "grating_ccw_level_2"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_grating_36deg"
+        pattern_ID: 5
+        duration: *grating_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: -160
+        gain: 0
+      - type: "wait"
+        duration: *grating_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *level_2
+      - type: "wait"
+        duration: *grating_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *grating_led_post
+
+  - name: "bar_cw_level_2"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_bar10_dark"
+        pattern_ID: 6
+        duration: *bar_dur
+        mode: 2
+        frame_index: *bar_start_neg135
+        frame_rate: *bar_frame_rate
+        gain: 0
+      - type: "wait"
+        duration: *bar_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *level_2
+      - type: "wait"
+        duration: *bar_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *bar_led_post
+
+  - name: "bar_ccw_level_2"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_bar10_dark"
+        pattern_ID: 6
+        duration: *bar_dur
+        mode: 2
+        frame_index: *bar_start_pos135
+        frame_rate: -50
+        gain: 0
+      - type: "wait"
+        duration: *bar_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *level_2
+      - type: "wait"
+        duration: *bar_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *bar_led_post
+
+  - name: "grating_cw_level_3"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_grating_36deg"
+        pattern_ID: 5
+        duration: *grating_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *grating_frame_rate
+        gain: 0
+      - type: "wait"
+        duration: *grating_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *level_3
+      - type: "wait"
+        duration: *grating_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *grating_led_post
+
+  - name: "grating_ccw_level_3"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_grating_36deg"
+        pattern_ID: 5
+        duration: *grating_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: -160
+        gain: 0
+      - type: "wait"
+        duration: *grating_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *level_3
+      - type: "wait"
+        duration: *grating_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *grating_led_post
+
+  - name: "bar_cw_level_3"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_bar10_dark"
+        pattern_ID: 6
+        duration: *bar_dur
+        mode: 2
+        frame_index: *bar_start_neg135
+        frame_rate: *bar_frame_rate
+        gain: 0
+      - type: "wait"
+        duration: *bar_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *level_3
+      - type: "wait"
+        duration: *bar_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *bar_led_post
+
+  - name: "bar_ccw_level_3"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_bar10_dark"
+        pattern_ID: 6
+        duration: *bar_dur
+        mode: 2
+        frame_index: *bar_start_pos135
+        frame_rate: -50
+        gain: 0
+      - type: "wait"
+        duration: *bar_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *level_3
+      - type: "wait"
+        duration: *bar_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *bar_led_post
+
+  - name: "grating_cw_level_4"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_grating_36deg"
+        pattern_ID: 5
+        duration: *grating_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *grating_frame_rate
+        gain: 0
+      - type: "wait"
+        duration: *grating_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *level_4
+      - type: "wait"
+        duration: *grating_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *grating_led_post
+
+  - name: "grating_ccw_level_4"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_grating_36deg"
+        pattern_ID: 5
+        duration: *grating_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: -160
+        gain: 0
+      - type: "wait"
+        duration: *grating_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *level_4
+      - type: "wait"
+        duration: *grating_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *grating_led_post
+
+  - name: "bar_cw_level_4"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_bar10_dark"
+        pattern_ID: 6
+        duration: *bar_dur
+        mode: 2
+        frame_index: *bar_start_neg135
+        frame_rate: *bar_frame_rate
+        gain: 0
+      - type: "wait"
+        duration: *bar_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *level_4
+      - type: "wait"
+        duration: *bar_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *bar_led_post
+
+  - name: "bar_ccw_level_4"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_bar10_dark"
+        pattern_ID: 6
+        duration: *bar_dur
+        mode: 2
+        frame_index: *bar_start_pos135
+        frame_rate: -50
+        gain: 0
+      - type: "wait"
+        duration: *bar_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *level_4
+      - type: "wait"
+        duration: *bar_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *bar_led_post
+
+  - name: "grating_cw_level_5"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_grating_36deg"
+        pattern_ID: 5
+        duration: *grating_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *grating_frame_rate
+        gain: 0
+      - type: "wait"
+        duration: *grating_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *level_5
+      - type: "wait"
+        duration: *grating_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *grating_led_post
+
+  - name: "grating_ccw_level_5"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_grating_36deg"
+        pattern_ID: 5
+        duration: *grating_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: -160
+        gain: 0
+      - type: "wait"
+        duration: *grating_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *level_5
+      - type: "wait"
+        duration: *grating_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *grating_led_post
+
+  - name: "bar_cw_level_5"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_bar10_dark"
+        pattern_ID: 6
+        duration: *bar_dur
+        mode: 2
+        frame_index: *bar_start_neg135
+        frame_rate: *bar_frame_rate
+        gain: 0
+      - type: "wait"
+        duration: *bar_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *level_5
+      - type: "wait"
+        duration: *bar_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *bar_led_post
+
+  - name: "bar_ccw_level_5"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_bar10_dark"
+        pattern_ID: 6
+        duration: *bar_dur
+        mode: 2
+        frame_index: *bar_start_pos135
+        frame_rate: -50
+        gain: 0
+      - type: "wait"
+        duration: *bar_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *level_5
+      - type: "wait"
+        duration: *bar_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *bar_led_post
+
+  - name: "grating_cw_sham_post"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_grating_36deg"
+        pattern_ID: 5
+        duration: *grating_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *grating_frame_rate
+        gain: 0
+      - type: "wait"
+        duration: *grating_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *sham_level
+      - type: "wait"
+        duration: *grating_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *grating_led_post
+
+  - name: "grating_ccw_sham_post"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_grating_36deg"
+        pattern_ID: 5
+        duration: *grating_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: -160
+        gain: 0
+      - type: "wait"
+        duration: *grating_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *sham_level
+      - type: "wait"
+        duration: *grating_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *grating_led_post
+
+  - name: "bar_cw_sham_post"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_bar10_dark"
+        pattern_ID: 6
+        duration: *bar_dur
+        mode: 2
+        frame_index: *bar_start_neg135
+        frame_rate: *bar_frame_rate
+        gain: 0
+      - type: "wait"
+        duration: *bar_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *sham_level
+      - type: "wait"
+        duration: *bar_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *bar_led_post
+
+  - name: "bar_ccw_sham_post"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p0_bar10_dark"
+        pattern_ID: 6
+        duration: *bar_dur
+        mode: 2
+        frame_index: *bar_start_pos135
+        frame_rate: -50
+        gain: 0
+      - type: "wait"
+        duration: *bar_led_pre
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *sham_level
+      - type: "wait"
+        duration: *bar_led_on
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "wait"
+        duration: *bar_led_post
+
+  - name: "shutdown"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "stopDisplay"
+      - type: "controller"
+        command_name: "allOff"

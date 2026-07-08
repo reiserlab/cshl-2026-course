@@ -17,16 +17,16 @@ version: 3
 #
 # Approximate runtime:
 #   start gray 3 s
-#   no-opto closed-loop front stripe: 3 x 20 s = 1.0 min
-#   no-opto sweeps: 3 speeds x 3 CW/CCW pairs = 0.88 min
-#   opto sweeps: matched 3 speeds x 3 CW/CCW pairs = 0.88 min
-#   opto closed-loop single stripe: 3 x 20 s = 1.0 min
-#   opto A/B choice: 6 combos x 4 x 15 s = 6.0 min
+#   no-opto closed-loop front stripe: 1 x 20 s = 0.33 min
+#   no-opto sweeps: 3 speeds x 1 CW/CCW pair = 0.29 min
+#   opto sweeps: matched 3 speeds x 1 CW/CCW pair = 0.29 min
+#   opto closed-loop single stripe: 1 x 20 s = 0.33 min
+#   opto A/B choice: 6 combos x 2 x 15 s = 3.0 min
 #   tonic opto switch: one LED-on command before opto blocks
-#   total about 589.0 s = 9.82 min before small command overhead.
+#   total about 259.0 s = 4.32 min before small command overhead.
 
 experiment_info:
-  name: "p2_object_tonic"
+  name: "p2_object_tonic_short"
   author: "Reiser Lab"
   date_created: 2026-07-08
 
@@ -45,7 +45,7 @@ plugins:
       offset: 0
 
 variables:
-  opto_percent: &opto_percent 5
+  opto_percent: &opto_percent 15
   start_bg_dur: &start_bg_dur 3
   base_fix_dur: &base_fix_dur 20
   sw_36_dur: &sw_36_dur 5
@@ -61,85 +61,85 @@ experiment:
   - name: "baseline"
     trials:
       - "base_bar"
-    repetitions: 3
+    repetitions: 1
     randomize: false
   - name: "baseline_sweeps_36"
     trials:
       - "sw_36_cw"
       - "sw_36_ccw"
-    repetitions: 3
+    repetitions: 1
     randomize: false
   - name: "baseline_sweeps_72"
     trials:
       - "sw_72_cw"
       - "sw_72_ccw"
-    repetitions: 3
+    repetitions: 1
     randomize: false
   - name: "baseline_sweeps_144"
     trials:
       - "sw_144_cw"
       - "sw_144_ccw"
-    repetitions: 3
+    repetitions: 1
     randomize: false
   - "opto_on"
   - name: "opto_sweeps_36"
     trials:
       - "sw_36_cw"
       - "sw_36_ccw"
-    repetitions: 3
+    repetitions: 1
     randomize: false
   - name: "opto_sweeps_72"
     trials:
       - "sw_72_cw"
       - "sw_72_ccw"
-    repetitions: 3
+    repetitions: 1
     randomize: false
   - name: "opto_sweeps_144"
     trials:
       - "sw_144_cw"
       - "sw_144_ccw"
-    repetitions: 3
+    repetitions: 1
     randomize: false
   - name: "opto_single_bar_cl"
     trials:
       - "cl_bar"
-    repetitions: 3
+    repetitions: 1
     randomize: false
   - name: "choice_small"
     trials:
       - "ab_small_l"
       - "ab_small_r"
-    repetitions: 2
+    repetitions: 1
     randomize: false
   - name: "choice_bpole"
     trials:
       - "ab_bpole_l"
       - "ab_bpole_r"
-    repetitions: 2
+    repetitions: 1
     randomize: false
   - name: "choice_bright"
     trials:
       - "ab_bright_l"
       - "ab_bright_r"
-    repetitions: 2
+    repetitions: 1
     randomize: false
   - name: "choice_dark"
     trials:
       - "ab_dark_l"
       - "ab_dark_r"
-    repetitions: 2
+    repetitions: 1
     randomize: false
   - name: "choice_edge"
     trials:
       - "ab_edge_l"
       - "ab_edge_r"
-    repetitions: 2
+    repetitions: 1
     randomize: false
   - name: "choice_peak"
     trials:
       - "ab_peak_l"
       - "ab_peak_r"
-    repetitions: 2
+    repetitions: 1
     randomize: false
   - "shutdown"
 

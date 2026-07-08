@@ -1,0 +1,2665 @@
+version: 3
+
+# P1 motion experiment, v2.
+#
+# Every visual trial begins with a 0.5 s optogenetic prestim: LED at 25% while
+# the trial pattern is held at frame 0. The LED is then turned off for the
+# motion stimulus.
+# Trials run in fixed order. Opposite-direction optomotor trials and
+# left/right looming trials are paired sequentially; front looms are included
+# before the lateral pairs for each class.
+# Between trials, the arena displays a static background-gray pattern rather
+# than allOff/stopDisplay.
+# Loom files contain 70 motion frames plus 5 duplicate
+# final frames to avoid rollover before static hold.
+# Many-dot control looms use their dot trajectory but end on the same final
+# dark loom frame as the matched disc loom.
+# Optomotor 0 Hz conditions are static frame-0 presentations; moving
+# optomotor conditions are paired cw/ccw at matched temporal frequencies.
+#
+# Trial counts:
+#   optomotor: 2 spatial periods x (1 static + 5 TFs x 2 directions) x 3 reps = 66
+#   looming: 3 classes x 5 positions x 2 speeds x 3 reps = 90
+# Approximate runtime: about 7.9 min before metadata/setup overhead.
+
+experiment_info:
+  name: "p1_motion_v2_full"
+  author: "Reiser Lab"
+  date_created: 2026-07-07
+
+rig: "./configs/rigs/cshl_g6_2x10_ball.yaml"
+
+variables:
+  opto_percent: 25
+  prestim_dur: 0.5
+
+  start_blank_dur: 3
+
+  om_move_dur: 2
+  om_bg_dur: 0.5
+
+  # rv40 and rv130 approximations using the first 70 motion frames.
+  loom_fast_dur: 0.72
+  loom_fast_rate: 97
+  loom_slow_dur: 2.33
+  loom_slow_rate: 30
+  loom_hold_dur: 0.5
+  loom_bg_dur: 0.5
+  shutdown_dur: 1
+
+experiment:
+  - "start_blank"
+  - name: "optomotor"
+    trials:
+      - "om_36deg_static_0hz"
+      - "om_36deg_cw_1hz"
+      - "om_36deg_ccw_1hz"
+      - "om_36deg_cw_2hz"
+      - "om_36deg_ccw_2hz"
+      - "om_36deg_cw_4hz"
+      - "om_36deg_ccw_4hz"
+      - "om_36deg_cw_8hz"
+      - "om_36deg_ccw_8hz"
+      - "om_36deg_cw_16hz"
+      - "om_36deg_ccw_16hz"
+      - "om_72deg_static_0hz"
+      - "om_72deg_cw_1hz"
+      - "om_72deg_ccw_1hz"
+      - "om_72deg_cw_2hz"
+      - "om_72deg_ccw_2hz"
+      - "om_72deg_cw_4hz"
+      - "om_72deg_ccw_4hz"
+      - "om_72deg_cw_8hz"
+      - "om_72deg_ccw_8hz"
+      - "om_72deg_cw_16hz"
+      - "om_72deg_ccw_16hz"
+    repetitions: 3
+    randomize: false
+  - name: "looming"
+    trials:
+      - "loom_disc_f_fast"
+      - "loom_disc_f_slow"
+      - "loom_disc_l45_fast"
+      - "loom_disc_r45_fast"
+      - "loom_disc_l45_slow"
+      - "loom_disc_r45_slow"
+      - "loom_disc_l90_fast"
+      - "loom_disc_r90_fast"
+      - "loom_disc_l90_slow"
+      - "loom_disc_r90_slow"
+      - "loom_ann_f_fast"
+      - "loom_ann_f_slow"
+      - "loom_ann_l45_fast"
+      - "loom_ann_r45_fast"
+      - "loom_ann_l45_slow"
+      - "loom_ann_r45_slow"
+      - "loom_ann_l90_fast"
+      - "loom_ann_r90_fast"
+      - "loom_ann_l90_slow"
+      - "loom_ann_r90_slow"
+      - "loom_dots_f_fast"
+      - "loom_dots_f_slow"
+      - "loom_dots_l45_fast"
+      - "loom_dots_r45_fast"
+      - "loom_dots_l45_slow"
+      - "loom_dots_r45_slow"
+      - "loom_dots_l90_fast"
+      - "loom_dots_r90_fast"
+      - "loom_dots_l90_slow"
+      - "loom_dots_r90_slow"
+    repetitions: 3
+    randomize: false
+  - "shutdown"
+
+conditions:
+  - name: "start_blank"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 3
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 3
+
+  - name: "om_36deg_static_0hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "om_36deg_cw_1hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: 20
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "om_36deg_ccw_1hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: -20
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "om_36deg_cw_2hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: 40
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "om_36deg_ccw_2hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: -40
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "om_36deg_cw_4hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: 80
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "om_36deg_ccw_4hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: -80
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "om_36deg_cw_8hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: 160
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "om_36deg_ccw_8hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: -160
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "om_36deg_cw_16hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: 320
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "om_36deg_ccw_16hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_36deg"
+        pattern_ID: 16
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: -320
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "om_72deg_static_0hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "om_72deg_cw_1hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: 40
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "om_72deg_ccw_1hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: -40
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "om_72deg_cw_2hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: 80
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "om_72deg_ccw_2hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: -80
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "om_72deg_cw_4hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: 160
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "om_72deg_ccw_4hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: -160
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "om_72deg_cw_8hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: 320
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "om_72deg_ccw_8hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: -320
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "om_72deg_cw_16hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: 640
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "om_72deg_ccw_16hz"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_grating_72deg"
+        pattern_ID: 17
+        duration: 2
+        mode: 2
+        frame_index: 0
+        frame_rate: -640
+        gain: 0
+      - type: "wait"
+        duration: 2
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_disc_f_fast"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_f"
+        pattern_ID: 1
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_f"
+        pattern_ID: 1
+        duration: 0.72
+        mode: 2
+        frame_index: 0
+        frame_rate: 97
+        gain: 0
+      - type: "wait"
+        duration: 0.72
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_f"
+        pattern_ID: 1
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_disc_f_slow"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_f"
+        pattern_ID: 1
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_f"
+        pattern_ID: 1
+        duration: 2.33
+        mode: 2
+        frame_index: 0
+        frame_rate: 30
+        gain: 0
+      - type: "wait"
+        duration: 2.33
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_f"
+        pattern_ID: 1
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_disc_l45_fast"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_l45"
+        pattern_ID: 2
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_l45"
+        pattern_ID: 2
+        duration: 0.72
+        mode: 2
+        frame_index: 0
+        frame_rate: 97
+        gain: 0
+      - type: "wait"
+        duration: 0.72
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_l45"
+        pattern_ID: 2
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_disc_r45_fast"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_r45"
+        pattern_ID: 3
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_r45"
+        pattern_ID: 3
+        duration: 0.72
+        mode: 2
+        frame_index: 0
+        frame_rate: 97
+        gain: 0
+      - type: "wait"
+        duration: 0.72
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_r45"
+        pattern_ID: 3
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_disc_l45_slow"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_l45"
+        pattern_ID: 2
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_l45"
+        pattern_ID: 2
+        duration: 2.33
+        mode: 2
+        frame_index: 0
+        frame_rate: 30
+        gain: 0
+      - type: "wait"
+        duration: 2.33
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_l45"
+        pattern_ID: 2
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_disc_r45_slow"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_r45"
+        pattern_ID: 3
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_r45"
+        pattern_ID: 3
+        duration: 2.33
+        mode: 2
+        frame_index: 0
+        frame_rate: 30
+        gain: 0
+      - type: "wait"
+        duration: 2.33
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_r45"
+        pattern_ID: 3
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_disc_l90_fast"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_l90"
+        pattern_ID: 4
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_l90"
+        pattern_ID: 4
+        duration: 0.72
+        mode: 2
+        frame_index: 0
+        frame_rate: 97
+        gain: 0
+      - type: "wait"
+        duration: 0.72
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_l90"
+        pattern_ID: 4
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_disc_r90_fast"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_r90"
+        pattern_ID: 5
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_r90"
+        pattern_ID: 5
+        duration: 0.72
+        mode: 2
+        frame_index: 0
+        frame_rate: 97
+        gain: 0
+      - type: "wait"
+        duration: 0.72
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_r90"
+        pattern_ID: 5
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_disc_l90_slow"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_l90"
+        pattern_ID: 4
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_l90"
+        pattern_ID: 4
+        duration: 2.33
+        mode: 2
+        frame_index: 0
+        frame_rate: 30
+        gain: 0
+      - type: "wait"
+        duration: 2.33
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_l90"
+        pattern_ID: 4
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_disc_r90_slow"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_r90"
+        pattern_ID: 5
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_r90"
+        pattern_ID: 5
+        duration: 2.33
+        mode: 2
+        frame_index: 0
+        frame_rate: 30
+        gain: 0
+      - type: "wait"
+        duration: 2.33
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_disc_r90"
+        pattern_ID: 5
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_ann_f_fast"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_f"
+        pattern_ID: 6
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_f"
+        pattern_ID: 6
+        duration: 0.72
+        mode: 2
+        frame_index: 0
+        frame_rate: 97
+        gain: 0
+      - type: "wait"
+        duration: 0.72
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_f"
+        pattern_ID: 6
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_ann_f_slow"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_f"
+        pattern_ID: 6
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_f"
+        pattern_ID: 6
+        duration: 2.33
+        mode: 2
+        frame_index: 0
+        frame_rate: 30
+        gain: 0
+      - type: "wait"
+        duration: 2.33
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_f"
+        pattern_ID: 6
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_ann_l45_fast"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_l45"
+        pattern_ID: 7
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_l45"
+        pattern_ID: 7
+        duration: 0.72
+        mode: 2
+        frame_index: 0
+        frame_rate: 97
+        gain: 0
+      - type: "wait"
+        duration: 0.72
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_l45"
+        pattern_ID: 7
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_ann_r45_fast"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_r45"
+        pattern_ID: 8
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_r45"
+        pattern_ID: 8
+        duration: 0.72
+        mode: 2
+        frame_index: 0
+        frame_rate: 97
+        gain: 0
+      - type: "wait"
+        duration: 0.72
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_r45"
+        pattern_ID: 8
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_ann_l45_slow"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_l45"
+        pattern_ID: 7
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_l45"
+        pattern_ID: 7
+        duration: 2.33
+        mode: 2
+        frame_index: 0
+        frame_rate: 30
+        gain: 0
+      - type: "wait"
+        duration: 2.33
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_l45"
+        pattern_ID: 7
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_ann_r45_slow"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_r45"
+        pattern_ID: 8
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_r45"
+        pattern_ID: 8
+        duration: 2.33
+        mode: 2
+        frame_index: 0
+        frame_rate: 30
+        gain: 0
+      - type: "wait"
+        duration: 2.33
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_r45"
+        pattern_ID: 8
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_ann_l90_fast"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_l90"
+        pattern_ID: 9
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_l90"
+        pattern_ID: 9
+        duration: 0.72
+        mode: 2
+        frame_index: 0
+        frame_rate: 97
+        gain: 0
+      - type: "wait"
+        duration: 0.72
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_l90"
+        pattern_ID: 9
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_ann_r90_fast"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_r90"
+        pattern_ID: 10
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_r90"
+        pattern_ID: 10
+        duration: 0.72
+        mode: 2
+        frame_index: 0
+        frame_rate: 97
+        gain: 0
+      - type: "wait"
+        duration: 0.72
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_r90"
+        pattern_ID: 10
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_ann_l90_slow"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_l90"
+        pattern_ID: 9
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_l90"
+        pattern_ID: 9
+        duration: 2.33
+        mode: 2
+        frame_index: 0
+        frame_rate: 30
+        gain: 0
+      - type: "wait"
+        duration: 2.33
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_l90"
+        pattern_ID: 9
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_ann_r90_slow"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_r90"
+        pattern_ID: 10
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_r90"
+        pattern_ID: 10
+        duration: 2.33
+        mode: 2
+        frame_index: 0
+        frame_rate: 30
+        gain: 0
+      - type: "wait"
+        duration: 2.33
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_ann_r90"
+        pattern_ID: 10
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_dots_f_fast"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_f"
+        pattern_ID: 11
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_f"
+        pattern_ID: 11
+        duration: 0.72
+        mode: 2
+        frame_index: 0
+        frame_rate: 97
+        gain: 0
+      - type: "wait"
+        duration: 0.72
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_f"
+        pattern_ID: 11
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_dots_f_slow"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_f"
+        pattern_ID: 11
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_f"
+        pattern_ID: 11
+        duration: 2.33
+        mode: 2
+        frame_index: 0
+        frame_rate: 30
+        gain: 0
+      - type: "wait"
+        duration: 2.33
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_f"
+        pattern_ID: 11
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_dots_l45_fast"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_l45"
+        pattern_ID: 12
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_l45"
+        pattern_ID: 12
+        duration: 0.72
+        mode: 2
+        frame_index: 0
+        frame_rate: 97
+        gain: 0
+      - type: "wait"
+        duration: 0.72
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_l45"
+        pattern_ID: 12
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_dots_r45_fast"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_r45"
+        pattern_ID: 13
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_r45"
+        pattern_ID: 13
+        duration: 0.72
+        mode: 2
+        frame_index: 0
+        frame_rate: 97
+        gain: 0
+      - type: "wait"
+        duration: 0.72
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_r45"
+        pattern_ID: 13
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_dots_l45_slow"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_l45"
+        pattern_ID: 12
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_l45"
+        pattern_ID: 12
+        duration: 2.33
+        mode: 2
+        frame_index: 0
+        frame_rate: 30
+        gain: 0
+      - type: "wait"
+        duration: 2.33
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_l45"
+        pattern_ID: 12
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_dots_r45_slow"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_r45"
+        pattern_ID: 13
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_r45"
+        pattern_ID: 13
+        duration: 2.33
+        mode: 2
+        frame_index: 0
+        frame_rate: 30
+        gain: 0
+      - type: "wait"
+        duration: 2.33
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_r45"
+        pattern_ID: 13
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_dots_l90_fast"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_l90"
+        pattern_ID: 14
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_l90"
+        pattern_ID: 14
+        duration: 0.72
+        mode: 2
+        frame_index: 0
+        frame_rate: 97
+        gain: 0
+      - type: "wait"
+        duration: 0.72
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_l90"
+        pattern_ID: 14
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_dots_r90_fast"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_r90"
+        pattern_ID: 15
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_r90"
+        pattern_ID: 15
+        duration: 0.72
+        mode: 2
+        frame_index: 0
+        frame_rate: 97
+        gain: 0
+      - type: "wait"
+        duration: 0.72
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_r90"
+        pattern_ID: 15
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_dots_l90_slow"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_l90"
+        pattern_ID: 14
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_l90"
+        pattern_ID: 14
+        duration: 2.33
+        mode: 2
+        frame_index: 0
+        frame_rate: 30
+        gain: 0
+      - type: "wait"
+        duration: 2.33
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_l90"
+        pattern_ID: 14
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "loom_dots_r90_slow"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_r90"
+        pattern_ID: 15
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 25
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_r90"
+        pattern_ID: 15
+        duration: 2.33
+        mode: 2
+        frame_index: 0
+        frame_rate: 30
+        gain: 0
+      - type: "wait"
+        duration: 2.33
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_loom_dots_r90"
+        pattern_ID: 15
+        duration: 0.5
+        mode: 2
+        frame_index: 74
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 0.5
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 0.5
+
+  - name: "shutdown"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p1v2_bg"
+        pattern_ID: 18
+        duration: 1
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: 1
+      - type: "controller"
+        command_name: "stopDisplay"
+      - type: "controller"
+        command_name: "allOff"
