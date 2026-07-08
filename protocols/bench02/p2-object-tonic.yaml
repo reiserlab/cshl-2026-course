@@ -45,7 +45,7 @@ plugins:
       offset: 0
 
 variables:
-  opto_percent: &opto_percent 15
+  opto_percent: &opto_percent 5
   start_bg_dur: &start_bg_dur 3
   base_fix_dur: &base_fix_dur 20
   sw_36_dur: &sw_36_dur 5
