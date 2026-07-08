@@ -1,10 +1,10 @@
 version: 3
 
-# P2 object experiment, tonic optogenetic version.
+# P2 object experiment, 0.5 s pre-trial optogenetic burst version.
 #
 # Initial blocks have no optogenetic stimulation: a dark vertical stripe is
 # closed-loop FicTrac controlled directly in front of the fly for 3 x 20 s, then
-# the same open-loop CW/CCW sweep set is run once with LED off. The LED is turned on once and held through matched open-loop sweeps, closed-loop single-stripe tracking, and closed-loop A/B object-choice trials.
+# the same open-loop CW/CCW sweep set is run once with LED off. The optogenetic phase uses a 0.5 s pre-trial LED burst while holding the first frame of each trial; the LED is then turned off for the visual trial.
 #
 # Frame 0 of p2_bar is centered at the calibrated front column from P1. The
 # moving-bar pattern has 200 frames, one azimuth pixel per frame. Sweeps cover
@@ -22,11 +22,11 @@ version: 3
 #   opto sweeps: matched 3 speeds x 3 CW/CCW pairs = 0.88 min
 #   opto closed-loop single stripe: 3 x 20 s = 1.0 min
 #   opto A/B choice: 6 combos x 4 x 15 s = 6.0 min
-#   tonic opto switch: one LED-on command before opto blocks
-#   total about 589.0 s = 9.82 min before small command overhead.
+#   burst overhead: 45 x 0.5 s = 22.5 s
+#   total about 611.5 s = 10.19 min before small command overhead.
 
 experiment_info:
-  name: "p2_object_tonic"
+  name: "p2_object_burst"
   author: "Reiser Lab"
   date_created: 2026-07-08
 
@@ -45,9 +45,10 @@ plugins:
       offset: 0
 
 variables:
-  opto_percent: &opto_percent 25
+  opto_percent: &opto_percent 40
   start_bg_dur: &start_bg_dur 3
   base_fix_dur: &base_fix_dur 20
+  burst_dur: &burst_dur 0.5
   sw_36_dur: &sw_36_dur 5
   sw_72_dur: &sw_72_dur 2.5
   sw_144_dur: &sw_144_dur 1.25
@@ -81,64 +82,63 @@ experiment:
       - "sw_144_ccw"
     repetitions: 3
     randomize: false
-  - "opto_on"
   - name: "opto_sweeps_36"
     trials:
-      - "sw_36_cw"
-      - "sw_36_ccw"
+      - "burst_sw_36_cw"
+      - "burst_sw_36_ccw"
     repetitions: 3
     randomize: false
   - name: "opto_sweeps_72"
     trials:
-      - "sw_72_cw"
-      - "sw_72_ccw"
+      - "burst_sw_72_cw"
+      - "burst_sw_72_ccw"
     repetitions: 3
     randomize: false
   - name: "opto_sweeps_144"
     trials:
-      - "sw_144_cw"
-      - "sw_144_ccw"
+      - "burst_sw_144_cw"
+      - "burst_sw_144_ccw"
     repetitions: 3
     randomize: false
   - name: "opto_single_bar_cl"
     trials:
-      - "cl_bar"
+      - "burst_cl_bar"
     repetitions: 3
     randomize: false
   - name: "choice_small"
     trials:
-      - "ab_small_l"
-      - "ab_small_r"
+      - "burst_ab_small_l"
+      - "burst_ab_small_r"
     repetitions: 2
     randomize: false
   - name: "choice_bpole"
     trials:
-      - "ab_bpole_l"
-      - "ab_bpole_r"
+      - "burst_ab_bpole_l"
+      - "burst_ab_bpole_r"
     repetitions: 2
     randomize: false
   - name: "choice_bright"
     trials:
-      - "ab_bright_l"
-      - "ab_bright_r"
+      - "burst_ab_bright_l"
+      - "burst_ab_bright_r"
     repetitions: 2
     randomize: false
   - name: "choice_dark"
     trials:
-      - "ab_dark_l"
-      - "ab_dark_r"
+      - "burst_ab_dark_l"
+      - "burst_ab_dark_r"
     repetitions: 2
     randomize: false
   - name: "choice_edge"
     trials:
-      - "ab_edge_l"
-      - "ab_edge_r"
+      - "burst_ab_edge_l"
+      - "burst_ab_edge_r"
     repetitions: 2
     randomize: false
   - name: "choice_peak"
     trials:
-      - "ab_peak_l"
-      - "ab_peak_r"
+      - "burst_ab_peak_l"
+      - "burst_ab_peak_r"
     repetitions: 2
     randomize: false
   - "shutdown"
@@ -183,14 +183,39 @@ conditions:
         plugin_name: "fictrac"
         command_name: "stopClosedLoop"
 
-  - name: "opto_on"
+  - name: "sw_36_cw"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_bar"
+        pattern_ID: 1
+        duration: *sw_36_dur
+        mode: 2
+        frame_index: 150
+        frame_rate: 20
+        gain: 0
+      - type: "wait"
+        duration: *sw_36_dur
+
+  - name: "burst_sw_36_cw"
     commands:
       - type: "controller"
         command_name: "ledDrive"
         percent: *opto_percent
-
-  - name: "sw_36_cw"
-    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_bar"
+        pattern_ID: 1
+        duration: *burst_dur
+        mode: 2
+        frame_index: 150
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *burst_dur
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
@@ -217,8 +242,70 @@ conditions:
       - type: "wait"
         duration: *sw_36_dur
 
+  - name: "burst_sw_36_ccw"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *opto_percent
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_bar"
+        pattern_ID: 1
+        duration: *burst_dur
+        mode: 2
+        frame_index: 50
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *burst_dur
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_bar"
+        pattern_ID: 1
+        duration: *sw_36_dur
+        mode: 2
+        frame_index: 50
+        frame_rate: -20
+        gain: 0
+      - type: "wait"
+        duration: *sw_36_dur
+
   - name: "sw_72_cw"
     commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_bar"
+        pattern_ID: 1
+        duration: *sw_72_dur
+        mode: 2
+        frame_index: 150
+        frame_rate: 40
+        gain: 0
+      - type: "wait"
+        duration: *sw_72_dur
+
+  - name: "burst_sw_72_cw"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *opto_percent
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_bar"
+        pattern_ID: 1
+        duration: *burst_dur
+        mode: 2
+        frame_index: 150
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *burst_dur
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
@@ -245,8 +332,70 @@ conditions:
       - type: "wait"
         duration: *sw_72_dur
 
+  - name: "burst_sw_72_ccw"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *opto_percent
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_bar"
+        pattern_ID: 1
+        duration: *burst_dur
+        mode: 2
+        frame_index: 50
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *burst_dur
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_bar"
+        pattern_ID: 1
+        duration: *sw_72_dur
+        mode: 2
+        frame_index: 50
+        frame_rate: -40
+        gain: 0
+      - type: "wait"
+        duration: *sw_72_dur
+
   - name: "sw_144_cw"
     commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_bar"
+        pattern_ID: 1
+        duration: *sw_144_dur
+        mode: 2
+        frame_index: 150
+        frame_rate: 80
+        gain: 0
+      - type: "wait"
+        duration: *sw_144_dur
+
+  - name: "burst_sw_144_cw"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *opto_percent
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_bar"
+        pattern_ID: 1
+        duration: *burst_dur
+        mode: 2
+        frame_index: 150
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *burst_dur
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
@@ -273,8 +422,56 @@ conditions:
       - type: "wait"
         duration: *sw_144_dur
 
-  - name: "ab_small_l"
+  - name: "burst_sw_144_ccw"
     commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *opto_percent
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_bar"
+        pattern_ID: 1
+        duration: *burst_dur
+        mode: 2
+        frame_index: 50
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *burst_dur
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_bar"
+        pattern_ID: 1
+        duration: *sw_144_dur
+        mode: 2
+        frame_index: 50
+        frame_rate: -80
+        gain: 0
+      - type: "wait"
+        duration: *sw_144_dur
+
+  - name: "burst_ab_small_l"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *opto_percent
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_ab_small_l"
+        pattern_ID: 3
+        duration: *burst_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *burst_dur
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_small_l"
@@ -295,8 +492,25 @@ conditions:
         plugin_name: "fictrac"
         command_name: "stopClosedLoop"
 
-  - name: "ab_small_r"
+  - name: "burst_ab_small_r"
     commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *opto_percent
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_ab_small_r"
+        pattern_ID: 4
+        duration: *burst_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *burst_dur
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_small_r"
@@ -317,8 +531,25 @@ conditions:
         plugin_name: "fictrac"
         command_name: "stopClosedLoop"
 
-  - name: "ab_bpole_l"
+  - name: "burst_ab_bpole_l"
     commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *opto_percent
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_ab_bpole_l"
+        pattern_ID: 5
+        duration: *burst_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *burst_dur
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_bpole_l"
@@ -339,8 +570,25 @@ conditions:
         plugin_name: "fictrac"
         command_name: "stopClosedLoop"
 
-  - name: "ab_bpole_r"
+  - name: "burst_ab_bpole_r"
     commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *opto_percent
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_ab_bpole_r"
+        pattern_ID: 6
+        duration: *burst_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *burst_dur
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_bpole_r"
@@ -361,8 +609,25 @@ conditions:
         plugin_name: "fictrac"
         command_name: "stopClosedLoop"
 
-  - name: "ab_bright_l"
+  - name: "burst_ab_bright_l"
     commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *opto_percent
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_ab_bright_l"
+        pattern_ID: 7
+        duration: *burst_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *burst_dur
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_bright_l"
@@ -383,8 +648,25 @@ conditions:
         plugin_name: "fictrac"
         command_name: "stopClosedLoop"
 
-  - name: "ab_bright_r"
+  - name: "burst_ab_bright_r"
     commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *opto_percent
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_ab_bright_r"
+        pattern_ID: 8
+        duration: *burst_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *burst_dur
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_bright_r"
@@ -405,8 +687,25 @@ conditions:
         plugin_name: "fictrac"
         command_name: "stopClosedLoop"
 
-  - name: "ab_dark_l"
+  - name: "burst_ab_dark_l"
     commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *opto_percent
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_ab_dark_l"
+        pattern_ID: 9
+        duration: *burst_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *burst_dur
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_dark_l"
@@ -427,8 +726,25 @@ conditions:
         plugin_name: "fictrac"
         command_name: "stopClosedLoop"
 
-  - name: "ab_dark_r"
+  - name: "burst_ab_dark_r"
     commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *opto_percent
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_ab_dark_r"
+        pattern_ID: 10
+        duration: *burst_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *burst_dur
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_dark_r"
@@ -449,8 +765,25 @@ conditions:
         plugin_name: "fictrac"
         command_name: "stopClosedLoop"
 
-  - name: "ab_edge_l"
+  - name: "burst_ab_edge_l"
     commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *opto_percent
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_ab_edge_l"
+        pattern_ID: 11
+        duration: *burst_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *burst_dur
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_edge_l"
@@ -471,8 +804,25 @@ conditions:
         plugin_name: "fictrac"
         command_name: "stopClosedLoop"
 
-  - name: "ab_edge_r"
+  - name: "burst_ab_edge_r"
     commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *opto_percent
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_ab_edge_r"
+        pattern_ID: 12
+        duration: *burst_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *burst_dur
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_edge_r"
@@ -493,8 +843,25 @@ conditions:
         plugin_name: "fictrac"
         command_name: "stopClosedLoop"
 
-  - name: "ab_peak_l"
+  - name: "burst_ab_peak_l"
     commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *opto_percent
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_ab_peak_l"
+        pattern_ID: 13
+        duration: *burst_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *burst_dur
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_peak_l"
@@ -515,8 +882,25 @@ conditions:
         plugin_name: "fictrac"
         command_name: "stopClosedLoop"
 
-  - name: "ab_peak_r"
+  - name: "burst_ab_peak_r"
     commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *opto_percent
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_ab_peak_r"
+        pattern_ID: 14
+        duration: *burst_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *burst_dur
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_peak_r"
@@ -537,8 +921,25 @@ conditions:
         plugin_name: "fictrac"
         command_name: "stopClosedLoop"
 
-  - name: "cl_bar"
+  - name: "burst_cl_bar"
     commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *opto_percent
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p2_bar"
+        pattern_ID: 1
+        duration: *burst_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *burst_dur
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
