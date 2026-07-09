@@ -6,6 +6,17 @@ write here **directly on the default branch** (no branches, no PRs) from
 and the Pattern Editor. That is safe because every write is namespaced by the
 bench id, so no two rigs ever write the same file.
 
+## Student guide draft
+
+Draft course handouts live in [`docs/`](docs/). A styled, unlisted web version
+is being staged on the webDisplayTools GitHub Pages site:
+
+<https://reiserlab.github.io/webDisplayTools/course/cshl-2026/guide.html>
+
+This guide is intentionally **not linked from public webDisplayTools pages**
+while it is still being proofread. Share direct links only when instructors are
+ready for students to read it.
+
 ## Layout
 
 ```

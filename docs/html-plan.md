@@ -64,31 +64,32 @@ standalone `.html` using one template, with a generated nav and search.
 B (or MkDocs Material skinned to the theme) if the guide will be reused after
 the course.
 
-## Hosting — the one decision to make
+## Hosting decision
 
-The course repo is **private**. Pick how students reach the pages:
+The course repo is **private**, but the student-facing guide can be hosted as an
+unlisted page on the public webDisplayTools GitHub Pages site:
 
-1. **Public docs on the webDisplayTools Pages site** (e.g.
-   `reiserlab.github.io/webDisplayTools/course/`). Simplest and free, but the
-   doc content becomes **public**. Fine for how-tos; **check** genotype/roster
-   material first.
-2. **GitHub Pages from the private course repo.** Keeps everything together;
-   private-repo Pages/visibility depends on the GitHub plan and who's added.
-3. **Bundle at hand-out time.** Build to static HTML (Option B) and share via
-   the course LMS / a zip / a private link.
+<https://reiserlab.github.io/webDisplayTools/course/cshl-2026/guide.html>
 
-> ✍️ **Instructor decision:** which hosting option, and whether any doc content
-> must stay private.
+Important constraints:
+
+- The page is public if someone has the exact URL.
+- It should **not** be linked from public webDisplayTools navigation while the
+  content is still a rough draft.
+- The private `cshl-2026-course` README can link to it for instructors.
+- Michael can send direct links to students after proofreading and updates.
+- Do not publish roster-specific or private student information in the public
+  copy.
 
 ## Suggested next steps
 
-1. Confirm the hosting choice above.
-2. Build `guide.html` (Option A) with the theme + a sidebar from the index.
-3. Add a "Guide" link in Arena Studio's top bar pointing at it.
-4. (Later) Add the static builder + a GitHub Action to publish on every push.
+1. Keep `guide.html` unlinked from public webDisplayTools pages.
+2. Link to the guide only from the private course repo README until proofreading
+   is complete.
+3. Refresh the public Markdown copy whenever the private `docs/` draft changes.
+4. Later, add a static builder or GitHub Action if the guide will be reused.
 
-I can implement Option A (`guide.html`) on request — it's a single self-contained
-file, matching the pattern of the other webDisplayTools tools.
+Option A is the chosen course-day approach.
 
 ---
 *Last updated 2026-07-09.*
