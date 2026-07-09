@@ -44,7 +44,8 @@ Keeping one folder per config means you never lose a working setup. A shared
 "starter" config is a good starting point but will **not** work as-is on every
 rig — you must tune it per rig.
 
-> 📎 The current working config is shared on the course Slack — start from that.
+The current July 8 working configs are archived in the course repo under
+[`configs/fictrac`](../configs/fictrac/README.md), one folder per rig.
 
 ## Calibrating with `configGUI`
 
