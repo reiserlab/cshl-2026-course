@@ -7,6 +7,13 @@ practical.
 > **Draft.** Anything marked **TBD** still needs instructor review or a missing
 > image/reference before the final student handout.
 
+## Course team
+
+- **Instructors:** Michael Reiser and Frank Loesche.
+- **Rig assembly and testing:** many people in the Reiser Lab helped assemble,
+  test, and troubleshoot these rigs, especially Hannah Marie Santos and Isabel.
+- **Fly work and genotypes:** Ed Rogers.
+
 ## Start here
 
 1. **[Tethering basics](tethering.md)** — gluing a fly to a pin and getting it on the ball.
