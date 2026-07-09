@@ -9,6 +9,11 @@ patterns, and recorded data land here, in one place, timestamped and attributed.
 You mostly won't touch GitHub directly — **Arena Studio reads and writes it for
 you.** This page is so you understand where your work goes and how to find it.
 
+This repo is not being used like a normal software project with branches and
+pull requests. It is a live course data bus. Benches write directly to `main`,
+but each bench writes to its own namespaced folders, so teams do not overwrite
+each other's data.
+
 ## The course repo
 
 Everything lives in one repository: **`reiserlab/cshl-2026-course`** (private —
@@ -63,8 +68,16 @@ is one run. The filename tells you the protocol, who ran it, and when.
 
 - You don't create branches or pull requests — benches write straight to the
   main copy (that's safe because of the bench-id namespacing).
+- You don't need to run Git commands during the lab.
 - You don't manually upload data — completed runs commit themselves.
 - You don't edit `roster.yaml` or the vocab files — instructors maintain those.
+
+## What instructors may do
+
+Instructors may update `roster.yaml`, promote stable protocols into
+`protocols/shared/`, fix pattern bundles, or pull the latest `runlogs/` for
+analysis. If you see new files appear while the course is running, that is
+normal.
 
 > ✍️ **Instructor to confirm:** how students receive repo access (added as
 > collaborators vs. a shared read token) and whether they ever open github.com

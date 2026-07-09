@@ -5,6 +5,14 @@ runs entirely in your browser (Chrome or Edge) — nothing to install.
 
 **Open it:** <https://reiserlab.github.io/webDisplayTools/arena_studio.html>
 
+## Useful links
+
+- **Arena Studio:** <https://reiserlab.github.io/webDisplayTools/arena_studio.html>
+- **Course repo:** `reiserlab/cshl-2026-course`
+- **Course docs:** this `docs/` folder, soon to be rendered as stylish HTML pages.
+- **Pattern design:** use the Pattern Editor/Designer link provided by the
+  instructor for the current webDisplayTools deployment.
+
 ## The three views
 
 A row of buttons at the top switches between three views:
@@ -73,6 +81,15 @@ the oscilloscope, Console queries, the display test, driving the LED, and STOP.
 Safe mode is a **guardrail, not a lock** — instructors can unlock it with a
 password (🛡 chip). Full details:
 [safe-mode-and-links.md in webDisplayTools](https://github.com/reiserlab/webDisplayTools/blob/main/docs/development/safe-mode-and-links.md).
+
+## Course workflow in one pass
+
+1. Open the assigned protocol from `protocols/shared/`.
+2. Run the short version first.
+3. If the fly and rig look good, run the matching full version.
+4. Check that the completed recorded run appears in `runlogs/<bench-id>/`.
+5. After core runs, make or modify a pattern and mark that run as
+   `innovation`.
 
 ## Troubleshooting
 

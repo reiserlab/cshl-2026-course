@@ -4,18 +4,20 @@
 can **steer the object itself** (closed-loop fixation) and when it must **choose
 between two objects** (A/B choice) — with and without optogenetic activation.
 
-**Files:** `p2_object_burst_*.yaml` and `p2_object_tonic_*.yaml` (short and
-full). Fly-on-ball rig. **Requires [FicTrac](../fictrac.md)** — this protocol
-uses **closed-loop** control. Full ≈ **10 min**.
+**Files:** `p2_object_tonic_short.yaml` / `p2_object_tonic_full.yaml` and
+`p2_object_burst_short.yaml` / `p2_object_burst_full.yaml`. Fly-on-ball rig.
+**Requires [FicTrac](../fictrac.md)** — this protocol uses **closed-loop**
+control. Everyone should run a P2 version; the instructor will assign tonic,
+burst, or both.
 
 ## Two optogenetic variants
 
 Same visual design; they differ only in *how* the LED is delivered:
 
 - **`burst`** — a **0.5 s LED pulse before each trial** (while the first frame
-  is held), then LED off for the trial.
+  is held), then LED off for the trial. Default LED level: **35%**.
 - **`tonic`** — the LED is turned **on once and held** through the whole
-  optogenetic phase.
+  optogenetic phase. Default LED level: **15%**.
 
 Pick the one your instructor specifies.
 
@@ -44,11 +46,18 @@ Pick the one your instructor specifies.
   shift the preference? (Frame it neutrally — don't assume which object is
   "better"; let the data tell you.)
 
-## Timing (full)
+## Timing
 
-Roughly **10 minutes**: ~1 min no-opto fixation, ~0.9 min no-opto sweeps, ~0.9
-min opto sweeps, ~1 min opto fixation, ~6 min A/B choice, plus the per-trial LED
-bursts (burst version).
+| Version | Approximate runtime |
+| --- | ---: |
+| `p2_object_tonic_short` | 4.3 min |
+| `p2_object_tonic_full` | 9.8 min |
+| `p2_object_burst_short` | 4.5 min |
+| `p2_object_burst_full` | 10.2 min |
+
+Full runs contain ~1 min no-opto fixation, ~0.9 min no-opto sweeps, ~0.9 min
+opto sweeps, ~1 min opto fixation, and ~6 min A/B choice, plus the per-trial LED
+bursts in the burst version.
 
 ## Before you run
 
@@ -56,9 +65,11 @@ bursts (burst version).
   work — confirm the oscilloscope shows live motion first.
 - Frame 0 of the bar is centered on the **calibrated front column** established
   in p1 — make sure the front calibration is current for this rig.
+- Run the short version first. If the same fly then completes the full version,
+  both can be pooled in analysis.
 
 > ✍️ **Instructor to confirm:** the front-column calibration procedure and which
-> genotypes run p2.
+> genotypes run P2 tonic, P2 burst, or both.
 
 ---
 *Last updated 2026-07-09. Source: `protocols/shared/p2_object_*.yaml`.*

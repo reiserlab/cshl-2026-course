@@ -6,8 +6,13 @@ it as a **dose–response** check: sham (no light) → increasing light levels �
 sham again.
 
 **Files:** `p0_opto_intensity_short.yaml` (~2.6 min) and
-`p0_opto_intensity_full.yaml`. Runs on the fly-on-ball rig; **open-loop** (no
-FicTrac closed-loop needed).
+`p0_opto_intensity_full.yaml` (~10.3 min). Runs on the fly-on-ball rig;
+**open-loop** (no FicTrac closed-loop needed).
+
+P0 is the course **intro protocol**. It is not intended to be the main high-N
+dataset, but it is useful to run once per genotype/line when possible so each
+team sees how Arena Studio, visual stimuli, LED timing, and run logging fit
+together.
 
 ## What the fly sees
 
@@ -56,7 +61,11 @@ adjusted in one place in the YAML if the calibration changes.
 ## Timing
 
 Short version ≈ **2.6 min** (7 blocks × 1 rep, 1-second blanks between trials).
-The full version runs the same design with more repetitions.
+Full version ≈ **10.3 min** (same design, 4 reps).
+
+Use short first as a sanity check. Do not tune LED levels during the student
+short run unless an instructor asks you to; the point is to decide whether the
+fly and rig are usable.
 
 > ✍️ **Instructor to confirm:** which CsChrimson genotypes to run p0 on, and the
 > final LED-percent calibration per rig.
