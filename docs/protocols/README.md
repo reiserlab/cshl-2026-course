@@ -43,7 +43,7 @@ each trial type as an isolated condition.
 | **[p0](p0-opto-intensity.md)** | Optogenetic intensity | Which LED level drives the fly | No (open-loop) | ~2.6 min | ~10.3 min |
 | **[p1](p1-motion.md)** | Visual motion | Optomotor turning + looming response | No (open-loop) | ~2.7 min | ~7.9 min |
 | **[p2](p2-object.md)** | Object responses | Bar fixation + A/B choice | **Yes** (needs FicTrac) | ~4.3-4.5 min | ~9.8-10.2 min |
-| **[p3](p3.md)** | Heisenberg conditioning | Closed-loop cue-preference learning | **Yes** (needs FicTrac) | ~8 min | ~18 min |
+| **[p3](p3.md)** | Heisenberg conditioning | Closed-loop cue-preference learning | **Yes** (needs FicTrac) | ≈8 min | ≈18 min |
 
 Animated pattern previews are embedded on all four protocol pages.
 
