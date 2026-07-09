@@ -5,6 +5,9 @@ into the fly's locomotion — **turning**, **forward** walking, and **sideways**
 motion. That signal drives the live oscilloscope in Arena Studio and powers
 **closed-loop** experiments, where the fly's own turning steers the visual scene.
 
+*Background: [Loesche & Reiser 2021](https://doi.org/10.3389/fnbeh.2021.689573)*
+*describes the low-cost fly-on-ball setup this rig is based on.*
+
 ## The mental model
 
 - The camera sees a patterned ball. FicTrac builds a **map** of the ball's

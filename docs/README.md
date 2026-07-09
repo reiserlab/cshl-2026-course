@@ -26,6 +26,10 @@ LED-arena rigs. Read them in roughly this order; each is short and practical.
 ## Reference
 
 - **[Genotype shorthand](genotypes.md)** — the fly lines and their dropdown labels.
+- **Further reading:** Loesche & Reiser (2021), *An inexpensive, high-precision
+  fly-on-ball setup* — [doi:10.3389/fnbeh.2021.689573](https://doi.org/10.3389/fnbeh.2021.689573).
+  The tethering and fly-on-ball pages here are adapted from it and the lab's CSHL
+  tethering protocol.
 
 ## For maintainers
 
