@@ -1,6 +1,6 @@
 version: 3
 
-# pattern_ID values target the flat patterns/course_sd bundle.
+# pattern_ID values target files in the flat patterns/ shared pattern library.
 
 # P2 object experiment, 0.5 s pre-trial optogenetic burst version.
 #

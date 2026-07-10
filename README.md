@@ -25,18 +25,19 @@ protocols/<bench-id>/<name>.yaml             a bench's protocol saves (Arena Stu
 protocols/<bench-id>/<name>_patterns/*.pat   patterns pushed from the Pattern Editor
 protocols/shared/<name>.yaml                 promoted protocols (visible to every bench)
 protocols/shared/<name>_patterns/*.pat       promoted patterns
-patterns/course_sd/*.pat                     flat 40-pattern bundle for the shared controller SD card
+patterns/*.pat                                flat 40-pattern shared pattern library and SD bundle
 runlogs/<bench-id>/<protocol>__<experimenter>__<stamp>__<runid>.jsonl
                                              ONE bridge log per COMPLETED recorded run (auto-committed)
 ```
 
 ## Unified course SD pattern bundle
 
-Copy the **40 `.pat` files inside [`patterns/course_sd/`](patterns/course_sd/)**
-directly to the root of the controller SD card. Do not merge the separate
-per-protocol pattern folders by hand. All maintained shared P0, P1, P2, and
-P100 YAMLs use this bundle's global 1-based IDs; the planned P3 patterns occupy
-IDs 36–40. See [`patterns/course_sd_manifest.md`](patterns/course_sd_manifest.md)
+Copy the **40 `.pat` files directly under [`patterns/`](patterns/)**—the shared
+pattern library—to the root of the controller SD card. Do not merge the source
+subdirectories or separate per-protocol pattern folders by hand. All maintained
+shared P0, P1, P2, and P100 YAMLs use this bundle's global 1-based IDs; the
+planned P3 patterns occupy IDs 36–40. See
+[`patterns/shared_pattern_library_manifest.md`](patterns/shared_pattern_library_manifest.md)
 for the complete mapping and the three deduplicated aliases.
 
 ## How each path gets written

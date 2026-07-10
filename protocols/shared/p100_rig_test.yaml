@@ -1,6 +1,6 @@
 version: 3
 
-# pattern_ID values target the flat patterns/course_sd bundle.
+# pattern_ID values target files in the flat patterns/ shared pattern library.
 
 # P100 rig test: 60 second controller-only checkout for CSHL course rigs.
 #
