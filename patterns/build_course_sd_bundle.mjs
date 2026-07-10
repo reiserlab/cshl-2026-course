@@ -95,7 +95,9 @@ const yamlFiles = [
   'protocols/shared/p2_object_tonic_short.yaml',
   'protocols/shared/p2_object_tonic_full.yaml',
   'protocols/shared/p2_object_burst_short.yaml',
-  'protocols/shared/p2_object_burst_full.yaml'
+  'protocols/shared/p2_object_burst_full.yaml',
+  'protocols/shared/p3_conditioning_closedloop_short.yaml',
+  'protocols/shared/p3_conditioning_closedloop_full.yaml'
 ];
 
 const byName = new Map(entries.map((entry) => [entry.name, entry]));
@@ -118,6 +120,29 @@ function bundleFile(entry) {
 
 function canonicalName(name) {
   return aliases.get(name) ?? name;
+}
+
+function readPatternAnchors(lines) {
+  const anchors = new Map();
+  for (const line of lines) {
+    const match = line.match(/^\s*(pattern_name|pattern_id):\s*&([A-Za-z0-9_-]+)\s*(?:"([^"]+)"|'([^']+)'|([^#\s]+))\s*$/);
+    if (!match) continue;
+    anchors.set(match[2], match[3] ?? match[4] ?? match[5]);
+  }
+  return anchors;
+}
+
+function resolvePatternToken(token, anchors, relativePath, lineNumber) {
+  const value = token.startsWith('*') ? anchors.get(token.slice(1)) : token;
+  if (!value) fail(`${relativePath}:${lineNumber}: unknown pattern anchor ${token}`);
+  return canonicalName(value);
+}
+
+function resolveIdToken(token, anchors, relativePath, lineNumber) {
+  const value = token.startsWith('*') ? anchors.get(token.slice(1)) : token;
+  const id = Number(value);
+  if (!Number.isInteger(id)) fail(`${relativePath}:${lineNumber}: invalid pattern_ID ${token}`);
+  return id;
 }
 
 function verifySources() {
@@ -160,6 +185,7 @@ function writeBundle() {
 function rewriteYaml(relativePath) {
   const filePath = absolute(relativePath);
   const lines = fs.readFileSync(filePath, 'utf8').split('\n');
+  const anchors = readPatternAnchors(lines);
   let pending = null;
   let pairCount = 0;
 
@@ -167,16 +193,26 @@ function rewriteYaml(relativePath) {
     const patternMatch = lines[index].match(/^(\s*)pattern:\s*["']?([^"'\s#]+)["']?\s*$/);
     if (patternMatch) {
       if (pending) fail(`${relativePath}:${index + 1}: pattern without pattern_ID`);
-      const name = canonicalName(patternMatch[2]);
+      const rawPattern = patternMatch[2];
+      const name = resolvePatternToken(rawPattern, anchors, relativePath, index + 1);
       if (!byName.has(name)) fail(`${relativePath}:${index + 1}: unknown pattern ${name}`);
-      lines[index] = `${patternMatch[1]}pattern: "${name}"`;
+      lines[index] = rawPattern.startsWith('*')
+        ? `${patternMatch[1]}pattern: ${rawPattern}`
+        : `${patternMatch[1]}pattern: "${name}"`;
       pending = { name, line: index + 1 };
       continue;
     }
 
-    const idMatch = lines[index].match(/^(\s*)pattern_ID:\s*\d+\s*$/);
+    const idMatch = lines[index].match(/^(\s*)pattern_ID:\s*([^\s#]+)\s*$/);
     if (idMatch && pending) {
-      lines[index] = `${idMatch[1]}pattern_ID: ${byName.get(pending.name).id}`;
+      const suppliedId = resolveIdToken(idMatch[2], anchors, relativePath, index + 1);
+      const expectedId = byName.get(pending.name).id;
+      if (suppliedId !== expectedId) {
+        fail(`${relativePath}:${index + 1}: ${pending.name} uses ${suppliedId}, expected ${expectedId}`);
+      }
+      lines[index] = idMatch[2].startsWith('*')
+        ? `${idMatch[1]}pattern_ID: ${idMatch[2]}`
+        : `${idMatch[1]}pattern_ID: ${expectedId}`;
       pairCount += 1;
       pending = null;
     }
@@ -189,10 +225,12 @@ function rewriteYaml(relativePath) {
 
 function referencedPatternNames(relativePath) {
   const text = fs.readFileSync(absolute(relativePath), 'utf8');
+  const anchors = readPatternAnchors(text.split('\n'));
   const names = new Set();
   for (const match of text.matchAll(/^\s*pattern:\s*["']?([^"'\s#]+)["']?\s*$/gm)) {
-    if (!byName.has(match[1])) fail(`${relativePath}: noncanonical pattern ${match[1]}`);
-    names.add(match[1]);
+    const name = resolvePatternToken(match[1], anchors, relativePath, 0);
+    if (!byName.has(name)) fail(`${relativePath}: noncanonical pattern ${name}`);
+    names.add(name);
   }
   if (names.size === 0) fail(`${relativePath}: no referenced patterns found`);
   return [...names].sort((a, b) => byName.get(a).id - byName.get(b).id);
@@ -240,7 +278,7 @@ subdirectories or mix these files with per-protocol pattern folders.
 The three duplicate pairs found in the P0–P3 plus P100 source sets are stored
 once under shared canonical names. Maintained shared protocol YAMLs use the
 canonical name and the global 1-based SD index below. P3 patterns occupy IDs
-36–40; a released P3 protocol YAML does not yet exist.
+36–40; the released P3 short/full YAMLs use these same IDs.
 
 Each maintained protocol's sibling \`*_patterns\` folder is a sparse subset
 using these same global filenames. Those sparse folders support editing and
@@ -294,6 +332,7 @@ function verifyProtocolPatternFolder(relativePath) {
 
 function verifyYaml(relativePath) {
   const lines = fs.readFileSync(absolute(relativePath), 'utf8').split('\n');
+  const anchors = readPatternAnchors(lines);
   let pending = null;
   let pairCount = 0;
 
@@ -301,16 +340,17 @@ function verifyYaml(relativePath) {
     const patternMatch = lines[index].match(/^\s*pattern:\s*["']?([^"'\s#]+)["']?\s*$/);
     if (patternMatch) {
       if (pending) fail(`${relativePath}:${index + 1}: pattern without pattern_ID`);
-      const name = patternMatch[1];
+      const name = resolvePatternToken(patternMatch[1], anchors, relativePath, index + 1);
       if (!byName.has(name)) fail(`${relativePath}:${index + 1}: noncanonical pattern ${name}`);
       pending = { name, line: index + 1 };
       continue;
     }
-    const idMatch = lines[index].match(/^\s*pattern_ID:\s*(\d+)\s*$/);
+    const idMatch = lines[index].match(/^\s*pattern_ID:\s*([^\s#]+)\s*$/);
     if (idMatch && pending) {
       const expectedId = byName.get(pending.name).id;
-      if (Number(idMatch[1]) !== expectedId) {
-        fail(`${relativePath}:${index + 1}: ${pending.name} uses ${idMatch[1]}, expected ${expectedId}`);
+      const suppliedId = resolveIdToken(idMatch[1], anchors, relativePath, index + 1);
+      if (suppliedId !== expectedId) {
+        fail(`${relativePath}:${index + 1}: ${pending.name} uses ${suppliedId}, expected ${expectedId}`);
       }
       pairCount += 1;
       pending = null;

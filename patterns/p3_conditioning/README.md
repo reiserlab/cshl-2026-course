@@ -1,6 +1,6 @@
 # P3 Heisenberg/Dill conditioning patterns
 
-Five G6 2x10, GS16, 200-frame full-azimuth movies for the planned P3
+Five G6 2x10, GS16, 200-frame full-azimuth movies for the P3
 closed-loop conditioning experiment. Every movie contains cue A twice and cue
 B twice, alternating every 90 degrees.
 

@@ -7,7 +7,7 @@ subdirectories or mix these files with per-protocol pattern folders.
 The three duplicate pairs found in the P0–P3 plus P100 source sets are stored
 once under shared canonical names. Maintained shared protocol YAMLs use the
 canonical name and the global 1-based SD index below. P3 patterns occupy IDs
-36–40; a released P3 protocol YAML does not yet exist.
+36–40; the released P3 short/full YAMLs use these same IDs.
 
 Each maintained protocol's sibling `*_patterns` folder is a sparse subset
 using these same global filenames. Those sparse folders support editing and

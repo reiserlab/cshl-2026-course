@@ -34,7 +34,7 @@ practical.
   - [p0 — Optogenetic intensity](protocols/p0-opto-intensity.md)
   - [p1 — Visual motion (optomotor + looming)](protocols/p1-motion.md)
   - [p2 — Object responses (bar, choice)](protocols/p2-object.md)
-  - [p3 — The Heisenberg experiment](protocols/p3.md) *(patterns ready; protocol in validation)*
+  - [p3 — The Heisenberg experiment](protocols/p3.md) *(short/full YAMLs released; instructor validation required)*
 
 ## Course strategy
 
@@ -61,4 +61,4 @@ practical.
 > animations for p0-p3.
 
 ---
-*Last updated 2026-07-09.*
+*Last updated 2026-07-10.*
