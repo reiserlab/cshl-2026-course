@@ -4,13 +4,13 @@ Five G6 2x10, GS16, 200-frame full-azimuth movies for the planned P3
 closed-loop conditioning experiment. Every movie contains cue A twice and cue
 B twice, alternating every 90 degrees.
 
-| ID | Pattern name | Cue A versus cue B | Historical source |
-| ---: | --- | --- | --- |
-| 1 | `p3_heisenberg_ts` | Upright versus inverted T | Wolf & Heisenberg 1991; Brembs & Heisenberg 2000 |
-| 2 | `p3_heisenberg_high_low` | High versus low horizontal bar | Vertical-position feature experiments summarized by Tang et al. 2004 |
-| 3 | `p3_heisenberg_slashes` | `/` versus `\` | Edge-orientation pair in Tang et al. 2004, Fig. 2C |
-| 4 | `p3_heisenberg_relational` | Two oblique bars with their upper/lower orientations swapped | Relational pair in Tang et al. 2004, Fig. 2E |
-| 5 | `p3_dill_random_checkers` | Two independently randomized quadrant-filling square textures | Dill, Wolf & Heisenberg 1995, Fig. 2 |
+| Choice | Global SD ID | Pattern name | Cue A versus cue B | Historical source |
+| ---: | ---: | --- | --- | --- |
+| 1 | 36 | `p3_heisenberg_ts` | Upright versus inverted T | Wolf & Heisenberg 1991; Brembs & Heisenberg 2000 |
+| 2 | 37 | `p3_heisenberg_high_low` | High versus low horizontal bar | Vertical-position feature experiments summarized by Tang et al. 2004 |
+| 3 | 38 | `p3_heisenberg_slashes` | `/` versus `\` | Edge-orientation pair in Tang et al. 2004, Fig. 2C |
+| 4 | 39 | `p3_heisenberg_relational` | Two oblique bars with their upper/lower orientations swapped | Relational pair in Tang et al. 2004, Fig. 2E |
+| 5 | 40 | `p3_dill_random_checkers` | Two independently randomized quadrant-filling square textures | Dill, Wolf & Heisenberg 1995, Fig. 2 |
 
 ## Shared coordinate system
 

@@ -1,5 +1,7 @@
 version: 3
 
+# pattern_ID values target the flat patterns/course_sd bundle.
+
 # P0 optogenetic intensity calibration.
 #
 # Visual set:
@@ -138,7 +140,7 @@ conditions:
         percent: 0
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p0_grating_36deg"
+        pattern: "course_grating_36deg"
         pattern_ID: 5
         duration: *grating_dur
         mode: 2
@@ -165,7 +167,7 @@ conditions:
         percent: 0
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p0_grating_36deg"
+        pattern: "course_grating_36deg"
         pattern_ID: 5
         duration: *grating_dur
         mode: 2
@@ -246,7 +248,7 @@ conditions:
         percent: 0
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p0_grating_36deg"
+        pattern: "course_grating_36deg"
         pattern_ID: 5
         duration: *grating_dur
         mode: 2
@@ -273,7 +275,7 @@ conditions:
         percent: 0
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p0_grating_36deg"
+        pattern: "course_grating_36deg"
         pattern_ID: 5
         duration: *grating_dur
         mode: 2
@@ -354,7 +356,7 @@ conditions:
         percent: 0
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p0_grating_36deg"
+        pattern: "course_grating_36deg"
         pattern_ID: 5
         duration: *grating_dur
         mode: 2
@@ -381,7 +383,7 @@ conditions:
         percent: 0
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p0_grating_36deg"
+        pattern: "course_grating_36deg"
         pattern_ID: 5
         duration: *grating_dur
         mode: 2
@@ -462,7 +464,7 @@ conditions:
         percent: 0
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p0_grating_36deg"
+        pattern: "course_grating_36deg"
         pattern_ID: 5
         duration: *grating_dur
         mode: 2
@@ -489,7 +491,7 @@ conditions:
         percent: 0
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p0_grating_36deg"
+        pattern: "course_grating_36deg"
         pattern_ID: 5
         duration: *grating_dur
         mode: 2
@@ -570,7 +572,7 @@ conditions:
         percent: 0
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p0_grating_36deg"
+        pattern: "course_grating_36deg"
         pattern_ID: 5
         duration: *grating_dur
         mode: 2
@@ -597,7 +599,7 @@ conditions:
         percent: 0
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p0_grating_36deg"
+        pattern: "course_grating_36deg"
         pattern_ID: 5
         duration: *grating_dur
         mode: 2
@@ -678,7 +680,7 @@ conditions:
         percent: 0
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p0_grating_36deg"
+        pattern: "course_grating_36deg"
         pattern_ID: 5
         duration: *grating_dur
         mode: 2
@@ -705,7 +707,7 @@ conditions:
         percent: 0
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p0_grating_36deg"
+        pattern: "course_grating_36deg"
         pattern_ID: 5
         duration: *grating_dur
         mode: 2
@@ -786,7 +788,7 @@ conditions:
         percent: 0
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p0_grating_36deg"
+        pattern: "course_grating_36deg"
         pattern_ID: 5
         duration: *grating_dur
         mode: 2
@@ -813,7 +815,7 @@ conditions:
         percent: 0
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p0_grating_36deg"
+        pattern: "course_grating_36deg"
         pattern_ID: 5
         duration: *grating_dur
         mode: 2

@@ -1,5 +1,7 @@
 version: 3
 
+# pattern_ID values target the flat patterns/course_sd bundle.
+
 # P2 object experiment, 0.5 s pre-trial optogenetic burst version.
 #
 # Initial blocks have no optogenetic stimulation: a dark vertical stripe is
@@ -151,8 +153,8 @@ conditions:
         percent: 0
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p2_bg"
-        pattern_ID: 2
+        pattern: "course_bg"
+        pattern_ID: 23
         duration: *start_bg_dur
         mode: 2
         frame_index: 0
@@ -166,7 +168,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
-        pattern_ID: 1
+        pattern_ID: 24
         duration: *base_fix_dur
         mode: 3
         frame_index: 0
@@ -188,7 +190,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
-        pattern_ID: 1
+        pattern_ID: 24
         duration: *sw_36_dur
         mode: 2
         frame_index: 150
@@ -205,7 +207,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
-        pattern_ID: 1
+        pattern_ID: 24
         duration: *burst_dur
         mode: 2
         frame_index: 150
@@ -219,7 +221,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
-        pattern_ID: 1
+        pattern_ID: 24
         duration: *sw_36_dur
         mode: 2
         frame_index: 150
@@ -233,7 +235,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
-        pattern_ID: 1
+        pattern_ID: 24
         duration: *sw_36_dur
         mode: 2
         frame_index: 50
@@ -250,7 +252,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
-        pattern_ID: 1
+        pattern_ID: 24
         duration: *burst_dur
         mode: 2
         frame_index: 50
@@ -264,7 +266,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
-        pattern_ID: 1
+        pattern_ID: 24
         duration: *sw_36_dur
         mode: 2
         frame_index: 50
@@ -278,7 +280,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
-        pattern_ID: 1
+        pattern_ID: 24
         duration: *sw_72_dur
         mode: 2
         frame_index: 150
@@ -295,7 +297,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
-        pattern_ID: 1
+        pattern_ID: 24
         duration: *burst_dur
         mode: 2
         frame_index: 150
@@ -309,7 +311,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
-        pattern_ID: 1
+        pattern_ID: 24
         duration: *sw_72_dur
         mode: 2
         frame_index: 150
@@ -323,7 +325,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
-        pattern_ID: 1
+        pattern_ID: 24
         duration: *sw_72_dur
         mode: 2
         frame_index: 50
@@ -340,7 +342,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
-        pattern_ID: 1
+        pattern_ID: 24
         duration: *burst_dur
         mode: 2
         frame_index: 50
@@ -354,7 +356,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
-        pattern_ID: 1
+        pattern_ID: 24
         duration: *sw_72_dur
         mode: 2
         frame_index: 50
@@ -368,7 +370,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
-        pattern_ID: 1
+        pattern_ID: 24
         duration: *sw_144_dur
         mode: 2
         frame_index: 150
@@ -385,7 +387,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
-        pattern_ID: 1
+        pattern_ID: 24
         duration: *burst_dur
         mode: 2
         frame_index: 150
@@ -399,7 +401,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
-        pattern_ID: 1
+        pattern_ID: 24
         duration: *sw_144_dur
         mode: 2
         frame_index: 150
@@ -413,7 +415,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
-        pattern_ID: 1
+        pattern_ID: 24
         duration: *sw_144_dur
         mode: 2
         frame_index: 50
@@ -430,7 +432,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
-        pattern_ID: 1
+        pattern_ID: 24
         duration: *burst_dur
         mode: 2
         frame_index: 50
@@ -444,7 +446,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
-        pattern_ID: 1
+        pattern_ID: 24
         duration: *sw_144_dur
         mode: 2
         frame_index: 50
@@ -461,7 +463,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_small_l"
-        pattern_ID: 3
+        pattern_ID: 25
         duration: *burst_dur
         mode: 2
         frame_index: 0
@@ -475,7 +477,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_small_l"
-        pattern_ID: 3
+        pattern_ID: 25
         duration: *choice_dur
         mode: 3
         frame_index: 0
@@ -500,7 +502,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_small_r"
-        pattern_ID: 4
+        pattern_ID: 26
         duration: *burst_dur
         mode: 2
         frame_index: 0
@@ -514,7 +516,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_small_r"
-        pattern_ID: 4
+        pattern_ID: 26
         duration: *choice_dur
         mode: 3
         frame_index: 0
@@ -539,7 +541,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_bpole_l"
-        pattern_ID: 5
+        pattern_ID: 27
         duration: *burst_dur
         mode: 2
         frame_index: 0
@@ -553,7 +555,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_bpole_l"
-        pattern_ID: 5
+        pattern_ID: 27
         duration: *choice_dur
         mode: 3
         frame_index: 0
@@ -578,7 +580,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_bpole_r"
-        pattern_ID: 6
+        pattern_ID: 28
         duration: *burst_dur
         mode: 2
         frame_index: 0
@@ -592,7 +594,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_bpole_r"
-        pattern_ID: 6
+        pattern_ID: 28
         duration: *choice_dur
         mode: 3
         frame_index: 0
@@ -617,7 +619,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_bright_l"
-        pattern_ID: 7
+        pattern_ID: 29
         duration: *burst_dur
         mode: 2
         frame_index: 0
@@ -631,7 +633,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_bright_l"
-        pattern_ID: 7
+        pattern_ID: 29
         duration: *choice_dur
         mode: 3
         frame_index: 0
@@ -656,7 +658,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_bright_r"
-        pattern_ID: 8
+        pattern_ID: 30
         duration: *burst_dur
         mode: 2
         frame_index: 0
@@ -670,7 +672,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_bright_r"
-        pattern_ID: 8
+        pattern_ID: 30
         duration: *choice_dur
         mode: 3
         frame_index: 0
@@ -694,8 +696,8 @@ conditions:
         percent: *opto_percent
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p2_ab_dark_l"
-        pattern_ID: 9
+        pattern: "p2_ab_dark"
+        pattern_ID: 31
         duration: *burst_dur
         mode: 2
         frame_index: 0
@@ -708,8 +710,8 @@ conditions:
         percent: 0
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p2_ab_dark_l"
-        pattern_ID: 9
+        pattern: "p2_ab_dark"
+        pattern_ID: 31
         duration: *choice_dur
         mode: 3
         frame_index: 0
@@ -733,8 +735,8 @@ conditions:
         percent: *opto_percent
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p2_ab_dark_r"
-        pattern_ID: 10
+        pattern: "p2_ab_dark"
+        pattern_ID: 31
         duration: *burst_dur
         mode: 2
         frame_index: 0
@@ -747,8 +749,8 @@ conditions:
         percent: 0
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p2_ab_dark_r"
-        pattern_ID: 10
+        pattern: "p2_ab_dark"
+        pattern_ID: 31
         duration: *choice_dur
         mode: 3
         frame_index: 0
@@ -773,7 +775,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_edge_l"
-        pattern_ID: 11
+        pattern_ID: 32
         duration: *burst_dur
         mode: 2
         frame_index: 0
@@ -787,7 +789,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_edge_l"
-        pattern_ID: 11
+        pattern_ID: 32
         duration: *choice_dur
         mode: 3
         frame_index: 0
@@ -812,7 +814,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_edge_r"
-        pattern_ID: 12
+        pattern_ID: 33
         duration: *burst_dur
         mode: 2
         frame_index: 0
@@ -826,7 +828,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_edge_r"
-        pattern_ID: 12
+        pattern_ID: 33
         duration: *choice_dur
         mode: 3
         frame_index: 0
@@ -851,7 +853,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_peak_l"
-        pattern_ID: 13
+        pattern_ID: 34
         duration: *burst_dur
         mode: 2
         frame_index: 0
@@ -865,7 +867,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_peak_l"
-        pattern_ID: 13
+        pattern_ID: 34
         duration: *choice_dur
         mode: 3
         frame_index: 0
@@ -890,7 +892,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_peak_r"
-        pattern_ID: 14
+        pattern_ID: 35
         duration: *burst_dur
         mode: 2
         frame_index: 0
@@ -904,7 +906,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_ab_peak_r"
-        pattern_ID: 14
+        pattern_ID: 35
         duration: *choice_dur
         mode: 3
         frame_index: 0
@@ -929,7 +931,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
-        pattern_ID: 1
+        pattern_ID: 24
         duration: *burst_dur
         mode: 2
         frame_index: 0
@@ -943,7 +945,7 @@ conditions:
       - type: "controller"
         command_name: "trialParams"
         pattern: "p2_bar"
-        pattern_ID: 1
+        pattern_ID: 24
         duration: *cl_dur
         mode: 3
         frame_index: 0
@@ -967,8 +969,8 @@ conditions:
         percent: 0
       - type: "controller"
         command_name: "trialParams"
-        pattern: "p2_bg"
-        pattern_ID: 2
+        pattern: "course_bg"
+        pattern_ID: 23
         duration: *shutdown_dur
         mode: 2
         frame_index: 0
