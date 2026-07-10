@@ -39,5 +39,34 @@ people:
   - id: hannah_marie
     name: Hannah Marie
     rig_id: bench04
+  # Students (roster photo, 2026-07-10). Add rig_id values once paired to benches.
+  - id: olenka_jain
+    name: Olenka Jain
+  - id: elle_mccall
+    name: Elle McCall
+  - id: jude_nnaka
+    name: Jude Nnaka
+  - id: lilly_kamman_cummings
+    name: Lilly Kamman-Cummings
+  - id: nabamita_halder
+    name: Nabamita Halder
+  - id: byoungsoo_kim
+    name: Byoungsoo Kim
+  - id: sanmin_jahan
+    name: Sanmin Jahan
+  - id: fatimah_hussein
+    name: Fatimah Hussein
+  - id: rose_riley
+    name: Rose Riley
+  - id: lina_iseni
+    name: Lina Iseni
+  - id: changyuan_wang
+    name: Changyuan Wang
+  - id: kristina_ponimaskine
+    name: Kristina Ponimaskine
+  - id: steven_bradley
+    name: Steven Bradley
+  - id: xiao_li
+    name: Xiao Li
   - id: guest
     name: Guest
