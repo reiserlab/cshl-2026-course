@@ -32,7 +32,7 @@ experiment_info:
 rig: "./configs/rigs/cshl_g6_2x10_ball.yaml"
 
 variables:
-  opto_percent: 5
+  opto_percent: 2
   prestim_dur: 0.5
 
   start_blank_dur: 3
