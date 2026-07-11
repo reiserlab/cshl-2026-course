@@ -1,0 +1,259 @@
+version: 3
+
+# P3 Heisenberg/Wolf/Dill closed-loop conditioning: left/right slashes, full experiment.
+#
+# Default activation stock: hot cell. P1 and moowalker (and other validated
+# activation lines) can be substituted in the run metadata after instructor
+# approval. Cue A is always the reinforced cue in this course protocol.
+#
+# FIXED PATTERN PAIR: left/right slashes. Phase 0 uses p3_heisenberg_slashes (ID 38);
+# phase 90 uses p3_heisenberg_slashes_shift90 (ID 43). Students do not edit patterns.
+# Closed-loop gain is fixed at -1.8 deg/frame; offset is fixed at zero.
+#
+# Timing: 3 s gray start + 54 x 20 s trials + 1 s shutdown = about 18 min 4 s,
+# plus small command overhead. Every trial is a separate 20 s closed-loop
+# chunk. Alternating source patterns impose an exact 50-frame (90-degree)
+# panorama phase switch at each boundary.
+
+experiment_info:
+  name: "p3_heisenberg_slashes_full"
+  author: "Reiser Lab"
+  date_created: 2026-07-10
+
+rig: "./configs/rigs/cshl_g6_2x10_ball.yaml"
+
+plugins:
+  - name: "fictrac"
+    type: "class"
+    matlab:
+      class: "FicTracPlugin"
+    config:
+      bridge_url: "ws://localhost:8765"
+      fictrac_port: 60000
+      proto: "udp"
+      gain: -1.8
+      offset: 0
+
+variables:
+  trial_dur: &trial_dur 20
+  start_bg_dur: &start_bg_dur 3
+  shutdown_dur: &shutdown_dur 1
+  led_percent: &led_percent 25
+  led_hysteresis: &led_hysteresis 0
+  cue_a_phase0_on_ranges: &cue_a_phase0_on_ranges
+    - [0, 49]
+    - [100, 149]
+  cue_a_phase90_on_ranges: &cue_a_phase90_on_ranges
+    - [50, 99]
+    - [150, 199]
+
+experiment:
+  - "start_bg"
+  - "led_off"
+  - name: "baseline"
+    trials:
+      - "baseline_phase0"
+      - "baseline_phase90"
+    repetitions: 6
+    randomize: false
+  - "led_off"
+  - name: "training_1"
+    trials:
+      - "training_phase0"
+      - "training_phase90"
+    repetitions: 6
+    randomize: false
+  - "led_off"
+  - name: "probe_1"
+    trials:
+      - "probe_phase0"
+      - "probe_phase90"
+    repetitions: 3
+    randomize: false
+  - name: "training_2"
+    trials:
+      - "training_phase0"
+      - "training_phase90"
+    repetitions: 6
+    randomize: false
+  - "led_off"
+  - name: "final_probe"
+    trials:
+      - "probe_phase0"
+      - "probe_phase90"
+    repetitions: 6
+    randomize: false
+  - "shutdown"
+
+conditions:
+  - name: "start_bg"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "course_bg"
+        pattern_ID: 23
+        duration: *start_bg_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *start_bg_dur
+
+  - name: "led_off"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+
+  - name: "baseline_phase0"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p3_heisenberg_slashes"
+        pattern_ID: 38
+        duration: *trial_dur
+        mode: 3
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "plugin"
+        plugin_name: "fictrac"
+        command_name: "startClosedLoop"
+      - type: "wait"
+        duration: *trial_dur
+      - type: "plugin"
+        plugin_name: "fictrac"
+        command_name: "stopClosedLoop"
+
+  - name: "baseline_phase90"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p3_heisenberg_slashes_shift90"
+        pattern_ID: 43
+        duration: *trial_dur
+        mode: 3
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "plugin"
+        plugin_name: "fictrac"
+        command_name: "startClosedLoop"
+      - type: "wait"
+        duration: *trial_dur
+      - type: "plugin"
+        plugin_name: "fictrac"
+        command_name: "stopClosedLoop"
+
+  - name: "training_phase0"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p3_heisenberg_slashes"
+        pattern_ID: 38
+        duration: *trial_dur
+        mode: 3
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+        led_activation:
+          level: *led_percent
+          hysteresis: *led_hysteresis
+          on_ranges: *cue_a_phase0_on_ranges
+      - type: "plugin"
+        plugin_name: "fictrac"
+        command_name: "startClosedLoop"
+      - type: "wait"
+        duration: *trial_dur
+      - type: "plugin"
+        plugin_name: "fictrac"
+        command_name: "stopClosedLoop"
+
+  - name: "training_phase90"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p3_heisenberg_slashes_shift90"
+        pattern_ID: 43
+        duration: *trial_dur
+        mode: 3
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+        led_activation:
+          level: *led_percent
+          hysteresis: *led_hysteresis
+          on_ranges: *cue_a_phase90_on_ranges
+      - type: "plugin"
+        plugin_name: "fictrac"
+        command_name: "startClosedLoop"
+      - type: "wait"
+        duration: *trial_dur
+      - type: "plugin"
+        plugin_name: "fictrac"
+        command_name: "stopClosedLoop"
+
+  - name: "probe_phase0"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p3_heisenberg_slashes"
+        pattern_ID: 38
+        duration: *trial_dur
+        mode: 3
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "plugin"
+        plugin_name: "fictrac"
+        command_name: "startClosedLoop"
+      - type: "wait"
+        duration: *trial_dur
+      - type: "plugin"
+        plugin_name: "fictrac"
+        command_name: "stopClosedLoop"
+
+  - name: "probe_phase90"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p3_heisenberg_slashes_shift90"
+        pattern_ID: 43
+        duration: *trial_dur
+        mode: 3
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "plugin"
+        plugin_name: "fictrac"
+        command_name: "startClosedLoop"
+      - type: "wait"
+        duration: *trial_dur
+      - type: "plugin"
+        plugin_name: "fictrac"
+        command_name: "stopClosedLoop"
+
+  - name: "shutdown"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "course_bg"
+        pattern_ID: 23
+        duration: *shutdown_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *shutdown_dur
+      - type: "controller"
+        command_name: "stopDisplay"
+      - type: "controller"
+        command_name: "allOff"

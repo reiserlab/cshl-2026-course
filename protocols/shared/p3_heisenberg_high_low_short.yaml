@@ -1,23 +1,22 @@
 version: 3
 
-# P3 V2 Heisenberg/Wolf/Dill closed-loop conditioning, full experiment.
+# P3 Heisenberg/Wolf/Dill closed-loop conditioning: high/low horizontal bars, short pilot.
 #
 # Default activation stock: hot cell. P1 and moowalker (and other validated
 # activation lines) can be substituted in the run metadata after instructor
 # approval. Cue A is always the reinforced cue in this course protocol.
 #
-# STUDENT PATTERN CHOICE: edit the phase0/phase90 name-ID quartet below using
-# the table in docs/protocols/p3.md. Keep all four entries in one pattern family.
-# Closed-loop gain is fixed at -1.8 deg/frame. Do not change it; V2 has no
-# heading offset or trial-specific starting-index adjustment.
+# FIXED PATTERN PAIR: high/low horizontal bars. Phase 0 uses p3_heisenberg_high_low (ID 37);
+# phase 90 uses p3_heisenberg_high_low_shift90 (ID 42). Students do not edit patterns.
+# Closed-loop gain is fixed at -1.8 deg/frame; offset is fixed at zero.
 #
-# Timing: 3 s gray start + 54 x 20 s trials + 1 s shutdown = about 18 min 4 s,
+# Timing: 3 s gray start + 24 x 20 s trials + 1 s shutdown = about 8 min 4 s,
 # plus small command overhead. Every trial is a separate 20 s closed-loop
 # chunk. Alternating source patterns impose an exact 50-frame (90-degree)
 # panorama phase switch at each boundary.
 
 experiment_info:
-  name: "p3_conditioning_closedloop_v2_full"
+  name: "p3_heisenberg_high_low_short"
   author: "Reiser Lab"
   date_created: 2026-07-10
 
@@ -36,11 +35,6 @@ plugins:
       offset: 0
 
 variables:
-  # Edit these four linked values together. Default: classic T figures.
-  pattern_phase0_name: &pattern_phase0_name "p3_heisenberg_ts"
-  pattern_phase0_id: &pattern_phase0_id 36
-  pattern_phase90_name: &pattern_phase90_name "p3_heisenberg_ts_shift90"
-  pattern_phase90_id: &pattern_phase90_id 41
   trial_dur: &trial_dur 20
   start_bg_dur: &start_bg_dur 3
   shutdown_dur: &shutdown_dur 1
@@ -60,34 +54,21 @@ experiment:
     trials:
       - "baseline_phase0"
       - "baseline_phase90"
-    repetitions: 6
+    repetitions: 3
     randomize: false
   - "led_off"
-  - name: "training_1"
+  - name: "training"
     trials:
       - "training_phase0"
       - "training_phase90"
     repetitions: 6
     randomize: false
   - "led_off"
-  - name: "probe_1"
+  - name: "probe"
     trials:
       - "probe_phase0"
       - "probe_phase90"
     repetitions: 3
-    randomize: false
-  - name: "training_2"
-    trials:
-      - "training_phase0"
-      - "training_phase90"
-    repetitions: 6
-    randomize: false
-  - "led_off"
-  - name: "final_probe"
-    trials:
-      - "probe_phase0"
-      - "probe_phase90"
-    repetitions: 6
     randomize: false
   - "shutdown"
 
@@ -119,8 +100,8 @@ conditions:
     commands:
       - type: "controller"
         command_name: "trialParams"
-        pattern: *pattern_phase0_name
-        pattern_ID: *pattern_phase0_id
+        pattern: "p3_heisenberg_high_low"
+        pattern_ID: 37
         duration: *trial_dur
         mode: 3
         frame_index: 0
@@ -139,8 +120,8 @@ conditions:
     commands:
       - type: "controller"
         command_name: "trialParams"
-        pattern: *pattern_phase90_name
-        pattern_ID: *pattern_phase90_id
+        pattern: "p3_heisenberg_high_low_shift90"
+        pattern_ID: 42
         duration: *trial_dur
         mode: 3
         frame_index: 0
@@ -159,8 +140,8 @@ conditions:
     commands:
       - type: "controller"
         command_name: "trialParams"
-        pattern: *pattern_phase0_name
-        pattern_ID: *pattern_phase0_id
+        pattern: "p3_heisenberg_high_low"
+        pattern_ID: 37
         duration: *trial_dur
         mode: 3
         frame_index: 0
@@ -183,8 +164,8 @@ conditions:
     commands:
       - type: "controller"
         command_name: "trialParams"
-        pattern: *pattern_phase90_name
-        pattern_ID: *pattern_phase90_id
+        pattern: "p3_heisenberg_high_low_shift90"
+        pattern_ID: 42
         duration: *trial_dur
         mode: 3
         frame_index: 0
@@ -207,8 +188,8 @@ conditions:
     commands:
       - type: "controller"
         command_name: "trialParams"
-        pattern: *pattern_phase0_name
-        pattern_ID: *pattern_phase0_id
+        pattern: "p3_heisenberg_high_low"
+        pattern_ID: 37
         duration: *trial_dur
         mode: 3
         frame_index: 0
@@ -227,8 +208,8 @@ conditions:
     commands:
       - type: "controller"
         command_name: "trialParams"
-        pattern: *pattern_phase90_name
-        pattern_ID: *pattern_phase90_id
+        pattern: "p3_heisenberg_high_low_shift90"
+        pattern_ID: 42
         duration: *trial_dur
         mode: 3
         frame_index: 0

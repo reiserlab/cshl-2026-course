@@ -36,7 +36,7 @@ Copy the **45 `.pat` files directly under [`patterns/`](patterns/)**—the share
 pattern library—to the root of the controller SD card. Do not merge the source
 subdirectories or separate per-protocol pattern folders by hand. All maintained
 shared P0, P1, P2, and P100 YAMLs use this bundle's global 1-based IDs; the
-released P3 V2 short/full YAMLs use paired IDs 36–45. See
+ten named P3 short/full YAMLs use fixed pattern pairs across IDs 36–45. See
 [`patterns/shared_pattern_library_manifest.md`](patterns/shared_pattern_library_manifest.md)
 for the complete mapping and the three deduplicated aliases.
 
