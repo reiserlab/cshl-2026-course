@@ -105,6 +105,24 @@ const yamlFiles = [
   'protocols/shared/p3_conditioning_closedloop_v2_full.yaml'
 ];
 
+const p3V2PatternMenu = [
+  'p3_heisenberg_ts',
+  'p3_heisenberg_high_low',
+  'p3_heisenberg_slashes',
+  'p3_heisenberg_relational',
+  'p3_dill_random_checkers',
+  'p3_heisenberg_ts_shift90',
+  'p3_heisenberg_high_low_shift90',
+  'p3_heisenberg_slashes_shift90',
+  'p3_heisenberg_relational_shift90',
+  'p3_dill_random_checkers_shift90'
+];
+
+const protocolPatternExtras = new Map([
+  ['protocols/shared/p3_conditioning_closedloop_v2_short.yaml', p3V2PatternMenu],
+  ['protocols/shared/p3_conditioning_closedloop_v2_full.yaml', p3V2PatternMenu]
+]);
+
 const byName = new Map(entries.map((entry) => [entry.name, entry]));
 
 function fail(message) {
@@ -241,6 +259,15 @@ function referencedPatternNames(relativePath) {
   return [...names].sort((a, b) => byName.get(a).id - byName.get(b).id);
 }
 
+function protocolPatternNames(relativePath) {
+  const names = new Set(referencedPatternNames(relativePath));
+  for (const name of protocolPatternExtras.get(relativePath) || []) {
+    if (!byName.has(name)) fail(`${relativePath}: unknown extra pattern ${name}`);
+    names.add(name);
+  }
+  return [...names].sort((a, b) => byName.get(a).id - byName.get(b).id);
+}
+
 function protocolPatternDir(relativePath) {
   const parsed = path.parse(absolute(relativePath));
   return path.join(parsed.dir, `${parsed.name}_patterns`);
@@ -250,7 +277,7 @@ function syncProtocolPatternFolders() {
   for (const yamlFile of yamlFiles) {
     const targetDir = protocolPatternDir(yamlFile);
     fs.mkdirSync(targetDir, { recursive: true });
-    const names = referencedPatternNames(yamlFile);
+    const names = protocolPatternNames(yamlFile);
     const expected = new Set(names.map((name) => bundleFile(byName.get(name))));
     for (const fileName of fs.readdirSync(targetDir)) {
       if (fileName.endsWith('.pat') && !expected.has(fileName)) {
@@ -321,7 +348,7 @@ function verifyBundle() {
 
 function verifyProtocolPatternFolder(relativePath) {
   const targetDir = protocolPatternDir(relativePath);
-  const names = referencedPatternNames(relativePath);
+  const names = protocolPatternNames(relativePath);
   const expected = names.map((name) => bundleFile(byName.get(name))).sort();
   const actual = fs.readdirSync(targetDir).filter((name) => name.endsWith('.pat')).sort();
   if (JSON.stringify(actual) !== JSON.stringify(expected)) {
