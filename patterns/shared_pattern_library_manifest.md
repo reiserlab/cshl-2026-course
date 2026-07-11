@@ -1,13 +1,13 @@
 # CSHL 2026 unified SD pattern bundle
 
-Copy the **40 `.pat` files directly under `patterns/`** (the shared
+Copy the **45 `.pat` files directly under `patterns/`** (the shared
 pattern library) to the root of the controller SD card. Do not copy the source
 subdirectories or mix these files with per-protocol pattern folders.
 
 The three duplicate pairs found in the P0–P3 plus P100 source sets are stored
 once under shared canonical names. Maintained shared protocol YAMLs use the
-canonical name and the global 1-based SD index below. P3 patterns occupy IDs
-36–40; the released P3 short/full YAMLs use these same IDs.
+canonical name and the global 1-based SD index below. P3 phase-0 patterns
+occupy IDs 36–40 and their exact 90-degree partners occupy IDs 41–45.
 
 Each maintained protocol's sibling `*_patterns` folder is a sparse subset
 using these same global filenames. Those sparse folders support editing and
@@ -61,3 +61,8 @@ name/ID pairs.
 | 38 | `038_p3_heisenberg_slashes.pat` | `p3_heisenberg_slashes` | — | `patterns/p3_conditioning/003_p3_heisenberg_slashes.pat` |
 | 39 | `039_p3_heisenberg_relational.pat` | `p3_heisenberg_relational` | — | `patterns/p3_conditioning/004_p3_heisenberg_relational.pat` |
 | 40 | `040_p3_dill_random_checkers.pat` | `p3_dill_random_checkers` | — | `patterns/p3_conditioning/005_p3_dill_random_checkers.pat` |
+| 41 | `041_p3_heisenberg_ts_shift90.pat` | `p3_heisenberg_ts_shift90` | — | `patterns/p3_conditioning/006_p3_heisenberg_ts_shift90.pat` |
+| 42 | `042_p3_heisenberg_high_low_shift90.pat` | `p3_heisenberg_high_low_shift90` | — | `patterns/p3_conditioning/007_p3_heisenberg_high_low_shift90.pat` |
+| 43 | `043_p3_heisenberg_slashes_shift90.pat` | `p3_heisenberg_slashes_shift90` | — | `patterns/p3_conditioning/008_p3_heisenberg_slashes_shift90.pat` |
+| 44 | `044_p3_heisenberg_relational_shift90.pat` | `p3_heisenberg_relational_shift90` | — | `patterns/p3_conditioning/009_p3_heisenberg_relational_shift90.pat` |
+| 45 | `045_p3_dill_random_checkers_shift90.pat` | `p3_dill_random_checkers_shift90` | — | `patterns/p3_conditioning/010_p3_dill_random_checkers_shift90.pat` |

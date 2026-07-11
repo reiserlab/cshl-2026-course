@@ -50,7 +50,12 @@ const entries = [
   ['p3_heisenberg_high_low', 'patterns/p3_conditioning/002_p3_heisenberg_high_low.pat'],
   ['p3_heisenberg_slashes', 'patterns/p3_conditioning/003_p3_heisenberg_slashes.pat'],
   ['p3_heisenberg_relational', 'patterns/p3_conditioning/004_p3_heisenberg_relational.pat'],
-  ['p3_dill_random_checkers', 'patterns/p3_conditioning/005_p3_dill_random_checkers.pat']
+  ['p3_dill_random_checkers', 'patterns/p3_conditioning/005_p3_dill_random_checkers.pat'],
+  ['p3_heisenberg_ts_shift90', 'patterns/p3_conditioning/006_p3_heisenberg_ts_shift90.pat'],
+  ['p3_heisenberg_high_low_shift90', 'patterns/p3_conditioning/007_p3_heisenberg_high_low_shift90.pat'],
+  ['p3_heisenberg_slashes_shift90', 'patterns/p3_conditioning/008_p3_heisenberg_slashes_shift90.pat'],
+  ['p3_heisenberg_relational_shift90', 'patterns/p3_conditioning/009_p3_heisenberg_relational_shift90.pat'],
+  ['p3_dill_random_checkers_shift90', 'patterns/p3_conditioning/010_p3_dill_random_checkers_shift90.pat']
 ].map(([name, source], index) => ({ id: index + 1, name, source }));
 
 const aliases = new Map([
@@ -96,8 +101,8 @@ const yamlFiles = [
   'protocols/shared/p2_object_tonic_full.yaml',
   'protocols/shared/p2_object_burst_short.yaml',
   'protocols/shared/p2_object_burst_full.yaml',
-  'protocols/shared/p3_conditioning_closedloop_short.yaml',
-  'protocols/shared/p3_conditioning_closedloop_full.yaml'
+  'protocols/shared/p3_conditioning_closedloop_v2_short.yaml',
+  'protocols/shared/p3_conditioning_closedloop_v2_full.yaml'
 ];
 
 const byName = new Map(entries.map((entry) => [entry.name, entry]));
@@ -125,9 +130,9 @@ function canonicalName(name) {
 function readPatternAnchors(lines) {
   const anchors = new Map();
   for (const line of lines) {
-    const match = line.match(/^\s*(pattern_name|pattern_id):\s*&([A-Za-z0-9_-]+)\s*(?:"([^"]+)"|'([^']+)'|([^#\s]+))\s*$/);
+    const match = line.match(/^\s*[A-Za-z0-9_]+:\s*&([A-Za-z0-9_-]+)\s*(?:"([^"]+)"|'([^']+)'|([^#\s]+))\s*$/);
     if (!match) continue;
-    anchors.set(match[2], match[3] ?? match[4] ?? match[5]);
+    anchors.set(match[1], match[2] ?? match[3] ?? match[4]);
   }
   return anchors;
 }
@@ -146,7 +151,7 @@ function resolveIdToken(token, anchors, relativePath, lineNumber) {
 }
 
 function verifySources() {
-  if (entries.length !== 40) fail(`Expected 40 entries, found ${entries.length}`);
+  if (entries.length !== 45) fail(`Expected 45 entries, found ${entries.length}`);
 
   const hashes = new Set();
   for (const entry of entries) {
@@ -271,14 +276,14 @@ function manifestText() {
 
   return `# CSHL 2026 unified SD pattern bundle
 
-Copy the **40 \`.pat\` files directly under \`patterns/\`** (the shared
+Copy the **45 \`.pat\` files directly under \`patterns/\`** (the shared
 pattern library) to the root of the controller SD card. Do not copy the source
 subdirectories or mix these files with per-protocol pattern folders.
 
 The three duplicate pairs found in the P0–P3 plus P100 source sets are stored
 once under shared canonical names. Maintained shared protocol YAMLs use the
-canonical name and the global 1-based SD index below. P3 patterns occupy IDs
-36–40; the released P3 short/full YAMLs use these same IDs.
+canonical name and the global 1-based SD index below. P3 phase-0 patterns
+occupy IDs 36–40 and their exact 90-degree partners occupy IDs 41–45.
 
 Each maintained protocol's sibling \`*_patterns\` folder is a sparse subset
 using these same global filenames. Those sparse folders support editing and
@@ -299,7 +304,7 @@ ${rows.join('\n')}
 function verifyBundle() {
   const files = fs.readdirSync(bundleDir).filter((name) => name.endsWith('.pat')).sort();
   const expected = entries.map(bundleFile);
-  if (files.length !== 40) fail(`Expected 40 bundled .pat files, found ${files.length}`);
+  if (files.length !== 45) fail(`Expected 45 bundled .pat files, found ${files.length}`);
   if (JSON.stringify(files) !== JSON.stringify(expected)) {
     fail('Bundle filenames do not match the global alphabetical order');
   }
@@ -311,7 +316,7 @@ function verifyBundle() {
     }
     hashes.add(digest(outputPath));
   }
-  if (hashes.size !== 40) fail(`Expected 40 unique output hashes, found ${hashes.size}`);
+  if (hashes.size !== 45) fail(`Expected 45 unique output hashes, found ${hashes.size}`);
 }
 
 function verifyProtocolPatternFolder(relativePath) {
@@ -382,7 +387,7 @@ function main() {
     pairCount += verifyYaml(yamlFile);
     verifyProtocolPatternFolder(yamlFile);
   }
-  console.log(`Validated 40 unique SD patterns and ${pairCount} YAML pattern/ID pairs.`);
+  console.log(`Validated 45 unique SD patterns and ${pairCount} YAML pattern/ID pairs.`);
 }
 
 main();
