@@ -97,8 +97,6 @@ experiment:
     name: closed loop
     repetitions: 1
   - "shutdown"
-  - start_closedloop
-  - end_closedloop
 
 conditions:
   - name: "start_blank"
