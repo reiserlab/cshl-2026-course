@@ -104,6 +104,9 @@ conditions:
       - type: "controller"
         command_name: "ledDrive"
         percent: 0
+      - type: plugin
+        plugin_name: fictrac
+        command_name: connect
       - type: "controller"
         command_name: "trialParams"
         pattern: "course_bg"
@@ -113,9 +116,6 @@ conditions:
         frame_index: 0
         frame_rate: 0
         gain: 0
-      - type: plugin
-        plugin_name: fictrac
-        command_name: connect
       - type: "wait"
         duration: 3
 
