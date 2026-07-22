@@ -48,7 +48,7 @@ variables:
   loom_hold_dur: 0.5
   loom_bg_dur: 0.5
   shutdown_dur: 1
-  closedloop_dur: &closedloop_dur 20
+  closedloop_dur: &closedloop_dur 30
 plugins:
   - name: fictrac
     type: class
@@ -1065,8 +1065,6 @@ conditions:
         command_name: "allOff"
   - name: bar
     commands:
-      - type: wait
-        duration: 1
       - type: controller
         command_name: trialParams
         pattern: 024_p2_bar
