@@ -53,20 +53,6 @@
    "stopped_ms": 1783401290118,
    "duration_s": 102.176,
    "complete": true
-  },
-  {
-   "run_id": "idxtest1",
-   "rig_id": "bench00",
-   "protocol_filename": "index-action-test.yaml",
-   "experimenter": "michael",
-   "genotype": "none",
-   "timestamp_start": "2026-09-06T22:26:40.000Z",
-   "file": "index-action-test__michael__2026-09-06T22-26-40__idxtest1.jsonl",
-   "size": 582,
-   "started_ms": 1788700000000,
-   "stopped_ms": 1788700123456,
-   "duration_s": 123.456,
-   "complete": true
   }
  ]
 }
