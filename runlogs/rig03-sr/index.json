@@ -24,6 +24,26 @@
    "complete": true
   },
   {
+   "run_id": "obey1a69",
+   "rig_id": "rig03-sr",
+   "protocol_filename": "p3-heisenberg-ts-full-led15.yaml",
+   "protocol_sha256": "be32de584ce2aa4f053a3e17bee5c199ff05ecb49fbf776092b2f3341d93c5d1",
+   "experimenter": "shubhamTR",
+   "genotype": "Gr28bD-LexA > CsChrimson",
+   "sex": "F",
+   "fly_number": "1",
+   "age": "3-4 days",
+   "notes": "LED_15",
+   "timestamp_start": "2026-09-06T21:55:08.362Z",
+   "tool_version": "Arena Studio v0.71",
+   "file": "p3-heisenberg-ts-full-led15__shubhamtr__2026-09-06T22-13-14__obey1a69.jsonl",
+   "size": 26110373,
+   "started_ms": 1788731708530,
+   "stopped_ms": 1788732793820,
+   "duration_s": 1085.29,
+   "complete": true
+  },
+  {
    "run_id": "ax4crcq8",
    "rig_id": "rig03-sr",
    "protocol_filename": "p3-heisenberg-ts-full-led20.yaml",
