@@ -1,0 +1,58 @@
+{
+ "format_version": 1,
+ "folder": "bench00",
+ "generated": "scripts/build-runlog-index.py",
+ "runs": [
+  {
+   "run_id": "b7qrjimm",
+   "rig_id": "bench00",
+   "protocol_filename": "fictrac-test-shorter.yaml",
+   "protocol_sha256": "64ba611ee74d1b9a2254542ad55417c0017920642311fa28897989fedf2ed4b7",
+   "experimenter": "michael",
+   "genotype": "empty split > CsChrimson",
+   "notes": "many witnesses for this one!",
+   "timestamp_start": "2026-07-06T14:22:45.823Z",
+   "tool_version": "Arena Studio v0.5",
+   "file": "fictrac-test-shorter__michael__2026-07-06T14-24-28__b7qrjimm.jsonl",
+   "size": 719032,
+   "started_ms": 1783347765825,
+   "stopped_ms": 1783347868048,
+   "duration_s": 102.223,
+   "complete": true
+  },
+  {
+   "run_id": "cudoq0sk",
+   "rig_id": "bench00",
+   "protocol_filename": "fictrac-test-shorter.yaml",
+   "protocol_sha256": "64ba611ee74d1b9a2254542ad55417c0017920642311fa28897989fedf2ed4b7",
+   "experimenter": "michael",
+   "genotype": "empty split > CsChrimson",
+   "notes": "many witnesses for this one!",
+   "timestamp_start": "2026-07-06T15:08:21.578Z",
+   "tool_version": "Arena Studio v0.5",
+   "file": "fictrac-test-shorter__michael__2026-07-06T15-10-03__cudoq0sk.jsonl",
+   "size": 722160,
+   "started_ms": 1783350501580,
+   "stopped_ms": 1783350603789,
+   "duration_s": 102.209,
+   "complete": true
+  },
+  {
+   "run_id": "70rj8ll1",
+   "rig_id": "bench00",
+   "protocol_filename": "fictrac-test-shorter.yaml",
+   "protocol_sha256": "64ba611ee74d1b9a2254542ad55417c0017920642311fa28897989fedf2ed4b7",
+   "experimenter": "michael",
+   "genotype": "empty split > CsChrimson",
+   "notes": "",
+   "timestamp_start": "2026-07-07T05:13:07.940Z",
+   "tool_version": "Arena Studio v0.5",
+   "file": "fictrac-test-shorter__michael__2026-07-07T05-14-50__70rj8ll1.jsonl",
+   "size": 724808,
+   "started_ms": 1783401187942,
+   "stopped_ms": 1783401290118,
+   "duration_s": 102.176,
+   "complete": true
+  }
+ ]
+}
