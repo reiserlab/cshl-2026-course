@@ -1,0 +1,6 @@
+{"type":"session","event":"logging_started","file":"index-action-test.jsonl","ms":1788700000000}
+{"type":"frame_schema","level":"behavior_v1","cols":["ms","fc","idx","ft","x","y","hd"]}
+{"type":"log","event":"run_metadata","rig_id":"bench00","run_id":"idxtest3","experimenter":"michael","genotype":"none","protocol_filename":"index-action-test.yaml","timestamp_start":"2026-09-06T22:26:40.000Z","rx_ms":1788700000000}
+[0,1,0,0.0,0,0,0]
+{"type":"log","event":"runner","phase":"sequence-complete","rx_ms":1788700123000}
+{"type":"session","event":"logging_stopped","ms":1788700123456}
