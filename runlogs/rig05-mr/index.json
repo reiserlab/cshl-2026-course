@@ -1,0 +1,27 @@
+{
+ "format_version": 1,
+ "folder": "rig05-mr",
+ "generated": "scripts/build-runlog-index.py",
+ "runs": [
+  {
+   "run_id": "oaec4gao",
+   "rig_id": "rig05-mr",
+   "protocol_filename": "fictrac_direction_test.yaml",
+   "protocol_sha256": "09e697467552bfa0a6cbedcba551916183e1fc90af1583f45ee4d0cc971d01a9",
+   "experimenter": "mreiser",
+   "genotype": "none",
+   "sex": "",
+   "fly_number": "",
+   "age": "",
+   "notes": "",
+   "timestamp_start": "2026-09-10T15:19:05.236Z",
+   "tool_version": "Arena Studio v0.73",
+   "file": "fictrac-direction-test__mreiser__2026-09-10T15-24-35__oaec4gao.jsonl.gz",
+   "size": 322868,
+   "started_ms": 1789053545239,
+   "stopped_ms": 1789053875530,
+   "duration_s": 330.291,
+   "complete": true
+  }
+ ]
+}
