@@ -524,6 +524,26 @@
    "complete": true
   },
   {
+   "run_id": "8eze0oyn",
+   "rig_id": "rig03-sr",
+   "protocol_filename": "p3-heisenberg-ts-short-led3.yaml",
+   "protocol_sha256": "8332c7011d46a8c239bef73a39ab58fb2c4776429004762a3d3930d5c3326c04",
+   "experimenter": "shubhamTR",
+   "genotype": "none",
+   "sex": "",
+   "fly_number": "",
+   "age": "",
+   "notes": "no fly",
+   "timestamp_start": "2026-09-11T17:30:17.640Z",
+   "tool_version": "Arena Studio v0.74",
+   "file": "p3-heisenberg-ts-short-led3__shubhamtr__2026-09-11T17-38-23__8eze0oyn.jsonl.gz",
+   "size": 1454111,
+   "started_ms": 1789147817656,
+   "stopped_ms": 1789148302903,
+   "duration_s": 485.247,
+   "complete": true
+  },
+  {
    "run_id": "cq6hcj29",
    "rig_id": "rig03-sr",
    "protocol_filename": "p3-heisenberg-ts-short-LED5.yaml",
