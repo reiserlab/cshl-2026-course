@@ -704,6 +704,26 @@
    "complete": null
   },
   {
+   "run_id": "oop717f5",
+   "rig_id": "rig03-sr",
+   "protocol_filename": "p3-heisenberg-ts-full-led3.yaml",
+   "protocol_sha256": "89a3f32785aee8c1aa62653875b987a313320a96a8062a3256fa855345ccdef3",
+   "experimenter": "shubhamTR",
+   "genotype": "Hot Cell (HC-Gal4) > CsChrimson",
+   "sex": "F",
+   "fly_number": "5",
+   "age": "3-4 days",
+   "notes": "Behav_V2_Trial6, refreshed SD card",
+   "timestamp_start": "2026-09-16T22:12:07.819Z",
+   "tool_version": "Arena Studio v0.79",
+   "file": "p3-heisenberg-ts-full-led3__shubhamtr__2026-09-16T22-30-13__oop717f5.jsonl.gz",
+   "size": 4334141,
+   "started_ms": 1789596727825,
+   "stopped_ms": 1789597812855,
+   "duration_s": 1085.03,
+   "complete": null
+  },
+  {
    "run_id": "rydc2tql",
    "rig_id": "rig03-sr",
    "protocol_filename": "p3-heisenberg-ts-full-led8-40sTrain.yaml",
