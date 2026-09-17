@@ -964,6 +964,26 @@
    "complete": null
   },
   {
+   "run_id": "xlm4j790",
+   "rig_id": "rig03-sr",
+   "protocol_filename": "p3-heisenberg-ts-short-led5-baseprobe3.yaml",
+   "protocol_sha256": "9cdc566b157bee8fc2cd1b5e2bbfae34da4377d286d7ef791c9129cc04030392",
+   "experimenter": "shubhamTR",
+   "genotype": "Hot Cell (HC-Gal4) > CsChrimson",
+   "sex": "F",
+   "fly_number": "1",
+   "age": "5-6 days",
+   "notes": "pilot",
+   "timestamp_start": "2026-09-17T19:37:26.851Z",
+   "tool_version": "Arena Studio v0.82",
+   "file": "p3-heisenberg-ts-short-led5-baseprobe3__shubhamtr__2026-09-17T19-45-31__xlm4j790.jsonl.gz",
+   "size": 2065307,
+   "started_ms": 1789673846855,
+   "stopped_ms": 1789674331261,
+   "duration_s": 484.406,
+   "complete": null
+  },
+  {
    "run_id": "cq6hcj29",
    "rig_id": "rig03-sr",
    "protocol_filename": "p3-heisenberg-ts-short-LED5.yaml",
