@@ -1002,6 +1002,26 @@
    "stopped_ms": 1788550881351,
    "duration_s": 484.539,
    "complete": true
+  },
+  {
+   "run_id": "etep185f",
+   "rig_id": "rig03-sr",
+   "protocol_filename": "p3-heisenberg-ts-short-led5.yaml",
+   "protocol_sha256": "842628e87b928295b85436c2cb31520811f9849d47d7639c2898a8b25439a074",
+   "experimenter": "shubhamTR",
+   "genotype": "Hot Cell (HC-Gal4) > CsChrimson",
+   "sex": "F",
+   "fly_number": "1",
+   "age": "5-6 days",
+   "notes": "pilot",
+   "timestamp_start": "2026-09-17T20:00:09.314Z",
+   "tool_version": "Arena Studio v0.82",
+   "file": "p3-heisenberg-ts-short-led5__shubhamtr__2026-09-17T20-08-14__etep185f.jsonl.gz",
+   "size": 1830491,
+   "started_ms": 1789675209322,
+   "stopped_ms": 1789675693740,
+   "duration_s": 484.418,
+   "complete": null
   }
  ]
 }
