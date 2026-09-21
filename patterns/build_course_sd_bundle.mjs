@@ -55,7 +55,8 @@ const entries = [
   ['p3_heisenberg_high_low_shift90', 'patterns/p3_conditioning/007_p3_heisenberg_high_low_shift90.pat'],
   ['p3_heisenberg_slashes_shift90', 'patterns/p3_conditioning/008_p3_heisenberg_slashes_shift90.pat'],
   ['p3_heisenberg_relational_shift90', 'patterns/p3_conditioning/009_p3_heisenberg_relational_shift90.pat'],
-  ['p3_dill_random_checkers_shift90', 'patterns/p3_conditioning/010_p3_dill_random_checkers_shift90.pat']
+  ['p3_dill_random_checkers_shift90', 'patterns/p3_conditioning/010_p3_dill_random_checkers_shift90.pat'],
+  ['p3_sbd_placelearning', 'patterns/p3_conditioning/011_p3_sbd_placelearning.pat']
 ].map(([name, source], index) => ({ id: index + 1, name, source }));
 
 const aliases = new Map([
