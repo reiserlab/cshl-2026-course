@@ -1,6 +1,6 @@
 # CSHL 2026 unified SD pattern bundle
 
-Copy the **45 `.pat` files directly under `patterns/`** (the shared
+Copy the **46 `.pat` files directly under `patterns/`** (the shared
 pattern library) to the root of the controller SD card. Do not copy the source
 subdirectories or mix these files with per-protocol pattern folders.
 
@@ -66,3 +66,4 @@ name/ID pairs.
 | 43 | `043_p3_heisenberg_slashes_shift90.pat` | `p3_heisenberg_slashes_shift90` | — | `patterns/p3_conditioning/008_p3_heisenberg_slashes_shift90.pat` |
 | 44 | `044_p3_heisenberg_relational_shift90.pat` | `p3_heisenberg_relational_shift90` | — | `patterns/p3_conditioning/009_p3_heisenberg_relational_shift90.pat` |
 | 45 | `045_p3_dill_random_checkers_shift90.pat` | `p3_dill_random_checkers_shift90` | — | `patterns/p3_conditioning/010_p3_dill_random_checkers_shift90.pat` |
+| 46 | `046_p3_sbd_placelearning.pat` | `p3_sbd_placelearning` | — | `patterns/p3_conditioning/011_p3_sbd_placelearning.pat` |

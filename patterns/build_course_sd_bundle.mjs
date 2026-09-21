@@ -59,6 +59,9 @@ const entries = [
   ['p3_sbd_placelearning', 'patterns/p3_conditioning/011_p3_sbd_placelearning.pat']
 ].map(([name, source], index) => ({ id: index + 1, name, source }));
 
+// Total number of shared SD patterns. Bump when adding an entry above.
+const BUNDLE_COUNT = 46;
+
 const aliases = new Map([
   ['p0_grating_36deg', 'course_grating_36deg'],
   ['p1v2_grating_36deg', 'course_grating_36deg'],
@@ -160,7 +163,7 @@ function resolveIdToken(token, anchors, relativePath, lineNumber) {
 }
 
 function verifySources() {
-  if (entries.length !== 45) fail(`Expected 45 entries, found ${entries.length}`);
+  if (entries.length !== BUNDLE_COUNT) fail(`Expected ${BUNDLE_COUNT} entries, found ${entries.length}`);
 
   const hashes = new Set();
   for (const entry of entries) {
@@ -285,7 +288,7 @@ function manifestText() {
 
   return `# CSHL 2026 unified SD pattern bundle
 
-Copy the **45 \`.pat\` files directly under \`patterns/\`** (the shared
+Copy the **${BUNDLE_COUNT} \`.pat\` files directly under \`patterns/\`** (the shared
 pattern library) to the root of the controller SD card. Do not copy the source
 subdirectories or mix these files with per-protocol pattern folders.
 
@@ -313,7 +316,7 @@ ${rows.join('\n')}
 function verifyBundle() {
   const files = fs.readdirSync(bundleDir).filter((name) => name.endsWith('.pat')).sort();
   const expected = entries.map(bundleFile);
-  if (files.length !== 45) fail(`Expected 45 bundled .pat files, found ${files.length}`);
+  if (files.length !== BUNDLE_COUNT) fail(`Expected ${BUNDLE_COUNT} bundled .pat files, found ${files.length}`);
   if (JSON.stringify(files) !== JSON.stringify(expected)) {
     fail('Bundle filenames do not match the global alphabetical order');
   }
@@ -325,7 +328,7 @@ function verifyBundle() {
     }
     hashes.add(digest(outputPath));
   }
-  if (hashes.size !== 45) fail(`Expected 45 unique output hashes, found ${hashes.size}`);
+  if (hashes.size !== BUNDLE_COUNT) fail(`Expected ${BUNDLE_COUNT} unique output hashes, found ${hashes.size}`);
 }
 
 function verifyProtocolPatternFolder(relativePath) {
@@ -396,7 +399,7 @@ function main() {
     pairCount += verifyYaml(yamlFile);
     verifyProtocolPatternFolder(yamlFile);
   }
-  console.log(`Validated 45 unique SD patterns and ${pairCount} YAML pattern/ID pairs.`);
+  console.log(`Validated ${BUNDLE_COUNT} unique SD patterns and ${pairCount} YAML pattern/ID pairs.`);
 }
 
 main();
