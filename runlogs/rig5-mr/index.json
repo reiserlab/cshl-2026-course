@@ -22,6 +22,26 @@
    "stopped_ms": 1790112713533,
    "duration_s": 797.153,
    "complete": null
+  },
+  {
+   "run_id": "zm0h163a",
+   "rig_id": "rig5-mr",
+   "protocol_filename": "fictrac_coupling_bias_fly_test.yaml",
+   "protocol_sha256": "d9dda4ea05bf7089e43d3f94de3c92034cfc1fef6dcfc26d82ca41d44ed0eec3",
+   "experimenter": "mreiser",
+   "genotype": "CS x w1118",
+   "sex": "F",
+   "fly_number": "2",
+   "age": "7-14 days",
+   "notes": "",
+   "timestamp_start": "2026-09-22T21:34:39.665Z",
+   "tool_version": "Arena Studio v0.86",
+   "file": "fictrac-coupling-bias-fly-test__mreiser__2026-09-22T21-46-45__zm0h163a.jsonl.gz",
+   "size": 1811442,
+   "started_ms": 1790112879669,
+   "stopped_ms": 1790113605050,
+   "duration_s": 725.381,
+   "complete": true
   }
  ]
 }
