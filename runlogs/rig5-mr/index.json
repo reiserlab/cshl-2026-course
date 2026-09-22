@@ -1,0 +1,27 @@
+{
+ "format_version": 1,
+ "folder": "rig5-mr",
+ "generated": "scripts/build-runlog-index.py",
+ "runs": [
+  {
+   "run_id": "eyqg117l",
+   "rig_id": null,
+   "protocol_filename": "fictrac_coupling_bias_fly_test.yaml",
+   "protocol_sha256": "d9dda4ea05bf7089e43d3f94de3c92034cfc1fef6dcfc26d82ca41d44ed0eec3",
+   "experimenter": "mreiser",
+   "genotype": "Canton-S",
+   "sex": "",
+   "fly_number": "",
+   "age": "",
+   "notes": "",
+   "timestamp_start": "2026-09-22T21:18:36.376Z",
+   "tool_version": "Arena Studio v0.86",
+   "file": "fictrac-coupling-bias-fly-test__mreiser__2026-09-22T21-31-53__eyqg117l.jsonl.gz",
+   "size": 1945595,
+   "started_ms": 1790111916380,
+   "stopped_ms": 1790112713533,
+   "duration_s": 797.153,
+   "complete": null
+  }
+ ]
+}
