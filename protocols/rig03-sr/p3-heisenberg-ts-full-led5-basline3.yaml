@@ -35,7 +35,6 @@ plugins:
       bridge_url: "ws://localhost:8765"
       fictrac_port: 60000
       proto: "udp"
-      gain: -1.8
       offset: 0
 
 variables:
@@ -134,6 +133,8 @@ conditions:
       - type: "plugin"
         plugin_name: "fictrac"
         command_name: "startClosedLoop"
+        params:
+          coupling: -1  # was the fictrac plugin config gain -1.8 (reversed coupling on this rig)
       - type: "wait"
         duration: *trial_dur
       - type: "plugin"
@@ -158,6 +159,8 @@ conditions:
       - type: "plugin"
         plugin_name: "fictrac"
         command_name: "startClosedLoop"
+        params:
+          coupling: -1  # was the fictrac plugin config gain -1.8 (reversed coupling on this rig)
       - type: "wait"
         duration: *trial_dur
       - type: "plugin"
@@ -182,6 +185,8 @@ conditions:
       - type: "plugin"
         plugin_name: "fictrac"
         command_name: "startClosedLoop"
+        params:
+          coupling: -1  # was the fictrac plugin config gain -1.8 (reversed coupling on this rig)
       - type: "wait"
         duration: *trial_dur
       - type: "plugin"
@@ -206,6 +211,8 @@ conditions:
       - type: "plugin"
         plugin_name: "fictrac"
         command_name: "startClosedLoop"
+        params:
+          coupling: -1  # was the fictrac plugin config gain -1.8 (reversed coupling on this rig)
       - type: "wait"
         duration: *trial_dur
       - type: "plugin"
@@ -230,6 +237,8 @@ conditions:
       - type: "plugin"
         plugin_name: "fictrac"
         command_name: "startClosedLoop"
+        params:
+          coupling: -1  # was the fictrac plugin config gain -1.8 (reversed coupling on this rig)
       - type: "wait"
         duration: *trial_dur
       - type: "plugin"
@@ -254,6 +263,8 @@ conditions:
       - type: "plugin"
         plugin_name: "fictrac"
         command_name: "startClosedLoop"
+        params:
+          coupling: -1  # was the fictrac plugin config gain -1.8 (reversed coupling on this rig)
       - type: "wait"
         duration: *trial_dur
       - type: "plugin"
