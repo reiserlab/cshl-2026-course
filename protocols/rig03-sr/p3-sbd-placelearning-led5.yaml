@@ -2,7 +2,8 @@ version: 3
 
 # P3 SBD visual place learning (Ofstad/Florence geometry, port of the G4.1 MATLAB
 # protocol p058 to the G6 2x10 fly-on-ball rig + Arena Studio web runner).
-# Requires Arena Studio >= v0.87 (start_frame) and bridge >= 3.3.
+# Requires Arena Studio >= v0.89 (start_frame, epoch gate) and bridge >= 3.4 — on main since
+# webDisplayTools PR #223 (2026-09-25); the Pages Studio at reiserlab.github.io qualifies.
 #
 # PATTERN: p3_sbd_placelearning (SD ID 46) - bars | horizontal stripes | 45-degree
 # diagonal, three 120-degree sections, 200 frames (frame k = panorama shifted k
