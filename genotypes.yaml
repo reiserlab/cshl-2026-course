@@ -28,3 +28,4 @@ genotypes:
   - "Giant Fiber (17A04-AD;68A06-DBD) > CsChrimson"
   - "none"
   - "Gr28bD-LexA > CsChrimson"
+  - "Emptysplit-LexA > CsChrimson; GR28bD"
