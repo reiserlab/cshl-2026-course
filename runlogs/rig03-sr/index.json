@@ -1482,6 +1482,26 @@
    "stopped_ms": 1791487911170,
    "duration_s": 1194.991,
    "complete": null
+  },
+  {
+   "run_id": "phkn104b",
+   "rig_id": "rig03-sr",
+   "protocol_filename": "sbd-bias-sinea30-placelearning.yaml",
+   "protocol_sha256": "1cff51a8aba93510938ef4a35275cd2176b169d6229a12c0eec1b976f3ab2931",
+   "experimenter": "shubhamTR",
+   "genotype": "Gr28bD-LexA > CsChrimson",
+   "sex": "F",
+   "fly_number": "1",
+   "age": "3-4 days",
+   "notes": "",
+   "timestamp_start": "2026-10-08T19:33:32.855Z",
+   "tool_version": "Arena Studio v0.94",
+   "file": "sbd-bias-sinea30-placelearning__shubhamtr__2026-10-08T19-53-28__phkn104b.jsonl.gz",
+   "size": 4898643,
+   "started_ms": 1791488012861,
+   "stopped_ms": 1791489207828,
+   "duration_s": 1194.967,
+   "complete": null
   }
  ]
 }
