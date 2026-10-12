@@ -1484,6 +1484,26 @@
    "complete": null
   },
   {
+   "run_id": "jynv8bib",
+   "rig_id": "rig03-sr",
+   "protocol_filename": "p3-sbd-placelearning-uncoupled-led20.yaml",
+   "protocol_sha256": "2c59ee2996f1d3c90b502607148e917ae14201810a224863805179b0ece21841",
+   "experimenter": "shubhamTR",
+   "genotype": "Gr28bD-LexA > CsChrimson",
+   "sex": "F",
+   "fly_number": "1",
+   "age": "3-4 days",
+   "notes": "12 hour starved, coupled fly 5. Do not use in analysis",
+   "timestamp_start": "2026-10-12T17:55:23.349Z",
+   "tool_version": "Arena Studio v0.94",
+   "file": "p3-sbd-placelearning-uncoupled-led20__shubhamtr__2026-10-12T18-18-37__jynv8bib.jsonl.gz",
+   "size": 5034497,
+   "started_ms": 1791827723356,
+   "stopped_ms": 1791829116677,
+   "duration_s": 1393.321,
+   "complete": null
+  },
+  {
    "run_id": "fwihpwtg",
    "rig_id": "rig03-sr",
    "protocol_filename": "sbd-bias-sinea30-placelearning.yaml",
