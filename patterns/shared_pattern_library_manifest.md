@@ -1,6 +1,6 @@
 # CSHL 2026 unified SD pattern bundle
 
-Copy the **46 `.pat` files directly under `patterns/`** (the shared
+Copy the **49 `.pat` files directly under `patterns/`** (the shared
 pattern library) to the root of the controller SD card. Do not copy the source
 subdirectories or mix these files with per-protocol pattern folders.
 
@@ -67,3 +67,6 @@ name/ID pairs.
 | 44 | `044_p3_heisenberg_relational_shift90.pat` | `p3_heisenberg_relational_shift90` | — | `patterns/p3_conditioning/009_p3_heisenberg_relational_shift90.pat` |
 | 45 | `045_p3_dill_random_checkers_shift90.pat` | `p3_dill_random_checkers_shift90` | — | `patterns/p3_conditioning/010_p3_dill_random_checkers_shift90.pat` |
 | 46 | `046_p3_sbd_placelearning.pat` | `p3_sbd_placelearning` | — | `patterns/p3_conditioning/011_p3_sbd_placelearning.pat` |
+| 47 | `047_p3_sbd_placelearning_shift90.pat` | `p3_sbd_placelearning_shift90` | — | `patterns/p3_conditioning/012_p3_sbd_placelearning_shift90.pat` |
+| 48 | `048_p3_sbd_placelearning_shift180.pat` | `p3_sbd_placelearning_shift180` | — | `patterns/p3_conditioning/013_p3_sbd_placelearning_shift180.pat` |
+| 49 | `049_p3_sbd_placelearning_shift270.pat` | `p3_sbd_placelearning_shift270` | — | `patterns/p3_conditioning/014_p3_sbd_placelearning_shift270.pat` |
