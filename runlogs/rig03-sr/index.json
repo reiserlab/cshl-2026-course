@@ -1764,6 +1764,26 @@
    "complete": null
   },
   {
+   "run_id": "jkkgudqf",
+   "rig_id": "rig03-sr",
+   "protocol_filename": "p3-sbd-placelearning-coupled-led7.yaml",
+   "protocol_sha256": "4cf737d8b1e97c215e6e5e68e3791a39f012df0e32c523641f530b77bd657c45",
+   "experimenter": "shubhamTR",
+   "genotype": "Hot Cell (HC-Gal4) > CsChrimson",
+   "sex": "F",
+   "fly_number": "2",
+   "age": "5-6 days",
+   "notes": "~20hrs",
+   "timestamp_start": "2026-10-14T20:07:44.286Z",
+   "tool_version": "Arena Studio v0.94",
+   "file": "p3-sbd-placelearning-coupled-led7__shubhamtr__2026-10-14T20-29-50__jkkgudqf.jsonl.gz",
+   "size": 5164187,
+   "started_ms": 1792008464294,
+   "stopped_ms": 1792009789777,
+   "duration_s": 1325.483,
+   "complete": null
+  },
+  {
    "run_id": "ueykyxxz",
    "rig_id": "rig1",
    "protocol_filename": "p3-sbd-placelearning-led5.yaml",
