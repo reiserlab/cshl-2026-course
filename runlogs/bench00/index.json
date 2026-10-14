@@ -24,6 +24,26 @@
    "complete": true
   },
   {
+   "run_id": "lrbhnsf5",
+   "rig_id": "bench00",
+   "protocol_filename": "fictrac_bias_test_mac_poc.yaml",
+   "protocol_sha256": "5f64c7956010d52ac7a27f4e641294af51d8e8da8924cec8ebb453eea4f9e71e",
+   "experimenter": "mreiser",
+   "genotype": "CS x w1118",
+   "sex": "M",
+   "fly_number": "1",
+   "age": "1-2 days",
+   "notes": "ROS 2 bridge PoC Mac test (LAB-303): bridge_node + fictrac_sim --model fly --kp 2, no fly",
+   "timestamp_start": "2026-10-14T21:08:58.475Z",
+   "tool_version": "Arena Studio v0.94",
+   "file": "fictrac-bias-test-mac-poc__mreiser__2026-10-14T21-09-58__lrbhnsf5.jsonl.gz",
+   "size": 268425,
+   "started_ms": 1792012138487,
+   "stopped_ms": 1792012198541,
+   "duration_s": 60.054,
+   "complete": true
+  },
+  {
    "run_id": "b7qrjimm",
    "rig_id": "bench00",
    "protocol_filename": "fictrac-test-shorter.yaml",
