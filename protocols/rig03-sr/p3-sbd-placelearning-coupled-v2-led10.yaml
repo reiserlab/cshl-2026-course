@@ -1,0 +1,307 @@
+version: 3
+
+# P3 SBD visual place learning - COUPLED (P066): the picture follows the fly 1:1, heat zone fixed on the bars/stripes seam. NO 5 s LED lead-in.
+# Port of the G4.1 MATLAB protocol p066 (TJ Florence / Ofstad place learning) to the
+# G6 2x10 fly-on-ball rig + Arena Studio. Requires Arena Studio >= v0.89 and bridge >= 3.4.
+# LED intensities as in the -led20 protocol: 20 % full heat, 15 % uniform in the probes.
+#
+# NO LEAD-IN VARIANT (2026-10-15): the 5 s dark + LED-at-full-heat lead-in (dark_led_pre) that
+# preceded every closed-loop trial in the -led20 protocol is REMOVED. Each closed-loop trial
+# now starts straight from the 10 s dark, LED-off blank (or from the optomotor sweep for the
+# preprobe), so the first heat a fly feels in a bout is the graded zone of that bout.
+# WHAT THE FLY GETS, per closed-loop trial: the closed-loop period with the picture, then
+# 10 s dark with the LED off (blank).
+# Preprobe/probe 40 s, uniform heat. Training bouts 40 s: graded heat zone, LED off inside
+# the 90-degree safe zone (frames 158-199 + 0-7), 15-degree ramps (frames 8-16 / 150-158),
+# full heat elsewhere. Starts alternate +/-90 degrees outside the zone (frame 57 "+",
+# frame 108 "-"): preprobe +, train_01 -, train_02 +, ..., probe -.
+#
+# SAFE ZONE / START FRAMES assume the course calibration (front = pixel column 49.5, seam
+# of pattern 46 in front at frame 183) - same numbers as p3-sbd-placelearning-led5.
+# Deviations from the MATLAB protocol: the heat ramp starts at 0 instead of a voltage floor;
+# without the lead-in there is no LED-on period before a bout (the TJ/Florence DARK_LED_PRE_S is 0).
+#
+# Timing: 3 s gray + 2 x 20 s optomotor + (40 + 10) preprobe + 20 x (40 + 10) bouts
+#         + (40 + 10) probe + 2 x 20 s optomotor + 30 s dark + 1 s = 1214 s, about 20 min 14 s.
+
+experiment_info:
+  name: "p3_sbd_placelearning_coupled_v2"
+  author: "Shubham Rathore"
+  date_created: 2026-10-15
+
+rig: "./configs/rigs/cshl_g6_2x10_ball.yaml"
+
+plugins:
+  - name: "fictrac"
+    type: "class"
+    matlab:
+      class: "FicTracPlugin"
+    config:
+      bridge_url: "ws://localhost:8765"
+      fictrac_port: 60000
+      proto: "udp"
+      offset: 0
+
+variables:
+  start_bg_dur: &start_bg_dur 3
+  shutdown_dur: &shutdown_dur 1
+  optomotor_dur: &optomotor_dur 20 # OPTO_PRE_S / OPTO_POST_S
+  grating_frame_rate_cw: &grating_frame_rate_cw 80 # OPTO_FPS (80 fps = 144 deg/s on G6)
+  grating_frame_rate_ccw: &grating_frame_rate_ccw -80
+  probe_dur: &probe_dur 40 # PROBE_S (40 s since 2026-10-08)
+  bout_dur: &bout_dur 40 # BOUT_S
+  blank_dur: &blank_dur 10 # BLANK_S (dark, LED off, after every closed-loop trial)
+  post_dark_dur: &post_dark_dur 30 # DARK_S
+  coupling: &coupling -1 # natural closed loop on the ball rigs (1:1, no bias)
+  start_frame_plus: &start_frame_plus 57 # zone end (frame 7) + 90 deg
+  start_frame_minus: &start_frame_minus 108 # zone start (frame 158) - 90 deg
+  led_percent: &led_percent 10 # full heat (training outside the zone)
+  baseprobe_led_percent: &baseprobe_led_percent 10 # uniform heat in preprobe/probe
+  heat_ramp_in:
+    # LED 0 at the zone edge (frame 8) -> full at 16 (15 deg)
+    &heat_ramp_in
+    - 8
+    - 16
+  heat_ramp_out:
+    # full at 150 -> LED 0 at the zone edge (frame 158)
+    &heat_ramp_out
+    - 150
+    - 158
+  all_frames_on_ranges: &all_frames_on_ranges
+    - [ 0, 199 ]
+
+experiment:
+  - "start_bg"
+  - "led_off"
+  - "optomotor_cw"
+  - "optomotor_ccw"
+  - "preprobe"
+  - "blank"
+  - name: "training"
+    trials:
+      - "train_minus"
+      - "blank"
+      - "train_plus"
+      - "blank"
+    repetitions: 10
+    randomize: false
+  - "probe"
+  - "blank"
+  - "optomotor_cw"
+  - "optomotor_ccw"
+  - "post_dark"
+  - "shutdown"
+
+conditions:
+  - name: "start_bg"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "course_bg"
+        pattern_ID: 23
+        duration: *start_bg_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *start_bg_dur
+
+  - name: "led_off"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+
+  - name: "optomotor_cw"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "course_grating_36deg"
+        pattern_ID: 5
+        duration: *optomotor_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *grating_frame_rate_cw
+        gain: 0
+      - type: "wait"
+        duration: *optomotor_dur
+
+  - name: "optomotor_ccw"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "course_grating_36deg"
+        pattern_ID: 5
+        duration: *optomotor_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *grating_frame_rate_ccw
+        gain: 0
+      - type: "wait"
+        duration: *optomotor_dur
+
+  # 10 s dark, LED off, after every closed-loop trial
+  - name: "blank"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "stopDisplay"
+      - type: "controller"
+        command_name: "allOff"
+      - type: "wait"
+        duration: *blank_dur
+
+  # preprobe: uniform heat, "+" start, pattern at k = 0
+  - name: "preprobe"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p3_sbd_placelearning"
+        pattern_ID: 46
+        duration: *probe_dur
+        mode: 3
+        frame_index: *start_frame_plus
+        frame_rate: 0
+        gain: 0
+        led_activation:
+          level: *baseprobe_led_percent
+          on_ranges: *all_frames_on_ranges
+      - type: "plugin"
+        plugin_name: "fictrac"
+        command_name: "startClosedLoop"
+        params:
+          coupling: *coupling
+      - type: "wait"
+        duration: *probe_dur
+      - type: "plugin"
+        plugin_name: "fictrac"
+        command_name: "stopClosedLoop"
+
+  # probe: uniform heat, "-" start, pattern at k = 0
+  - name: "probe"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p3_sbd_placelearning"
+        pattern_ID: 46
+        duration: *probe_dur
+        mode: 3
+        frame_index: *start_frame_minus
+        frame_rate: 0
+        gain: 0
+        led_activation:
+          level: *baseprobe_led_percent
+          on_ranges: *all_frames_on_ranges
+      - type: "plugin"
+        plugin_name: "fictrac"
+        command_name: "startClosedLoop"
+        params:
+          coupling: *coupling
+      - type: "wait"
+        duration: *probe_dur
+      - type: "plugin"
+        plugin_name: "fictrac"
+        command_name: "stopClosedLoop"
+
+  # training bout, "-" start (odd bouts)
+  - name: "train_minus"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p3_sbd_placelearning"
+        pattern_ID: 46
+        duration: *bout_dur
+        mode: 3
+        frame_index: *start_frame_minus
+        frame_rate: 0
+        gain: 0
+        led_activation:
+          baseline: 0
+          zones:
+            - level: *led_percent
+              ramp_in: *heat_ramp_in
+              ramp_out: *heat_ramp_out
+      - type: "plugin"
+        plugin_name: "fictrac"
+        command_name: "startClosedLoop"
+        params:
+          coupling: *coupling
+      - type: "wait"
+        duration: *bout_dur
+      - type: "plugin"
+        plugin_name: "fictrac"
+        command_name: "stopClosedLoop"
+
+  # training bout, "+" start (even bouts)
+  - name: "train_plus"
+    commands:
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p3_sbd_placelearning"
+        pattern_ID: 46
+        duration: *bout_dur
+        mode: 3
+        frame_index: *start_frame_plus
+        frame_rate: 0
+        gain: 0
+        led_activation:
+          baseline: 0
+          zones:
+            - level: *led_percent
+              ramp_in: *heat_ramp_in
+              ramp_out: *heat_ramp_out
+      - type: "plugin"
+        plugin_name: "fictrac"
+        command_name: "startClosedLoop"
+        params:
+          coupling: *coupling
+      - type: "wait"
+        duration: *bout_dur
+      - type: "plugin"
+        plugin_name: "fictrac"
+        command_name: "stopClosedLoop"
+
+  - name: "post_dark"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "stopDisplay"
+      - type: "controller"
+        command_name: "allOff"
+      - type: "wait"
+        duration: *post_dark_dur
+
+  - name: "shutdown"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "course_bg"
+        pattern_ID: 23
+        duration: *shutdown_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *shutdown_dur
+      - type: "controller"
+        command_name: "stopDisplay"
+      - type: "controller"
+        command_name: "allOff"
