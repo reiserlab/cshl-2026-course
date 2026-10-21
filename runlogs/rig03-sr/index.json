@@ -1444,6 +1444,26 @@
    "complete": null
   },
   {
+   "run_id": "ld6513yj",
+   "rig_id": "rig03-sr",
+   "protocol_filename": "p3-sbd-placelearning-coupled-bias40-v2-led10.yaml",
+   "protocol_sha256": "0fdadaaa410aab5a833b54c55506e658db3e5de4fa70d475e28417320ac5f0ac",
+   "experimenter": "ShubhamTR",
+   "genotype": "Hot Cell (HC-Gal4) > CsChrimson",
+   "sex": "F",
+   "fly_number": "2",
+   "age": "3-4 days",
+   "notes": "SBD with sine 40",
+   "timestamp_start": "2026-10-21T20:06:03.245Z",
+   "tool_version": "Arena Studio v0.95",
+   "file": "p3-sbd-placelearning-coupled-bias40-v2-led10__shubhamtr__2026-10-21T20-26-20__ld6513yj.jsonl.gz",
+   "size": 4784417,
+   "started_ms": 1792613163252,
+   "stopped_ms": 1792614379935,
+   "duration_s": 1216.683,
+   "complete": null
+  },
+  {
    "run_id": "teb41413",
    "rig_id": "rig03-sr",
    "protocol_filename": "p3-sbd-placelearning-coupled-led10.yaml",
