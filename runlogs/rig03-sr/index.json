@@ -1684,6 +1684,26 @@
    "complete": null
   },
   {
+   "run_id": "cl4f1cdd",
+   "rig_id": "rig03-sr",
+   "protocol_filename": "p3-sbd-placelearning-coupled-bias40-v2-led24.yaml",
+   "protocol_sha256": "9d934570828d8bc08ab21decbd507f639d3d25c203a8677ce7057ebab00a176a",
+   "experimenter": "ShubhamTR",
+   "genotype": "Emptysplit-LexA > CsChrimson; GR28bD",
+   "sex": "F",
+   "fly_number": "1",
+   "age": "3-4 days",
+   "notes": "SBD with sine 40, probe also at the same intensity as the training. Frequent flyer.",
+   "timestamp_start": "2026-10-22T21:38:52.528Z",
+   "tool_version": "Arena Studio v0.95",
+   "file": "p3-sbd-placelearning-coupled-bias40-v2-led24__shubhamtr__2026-10-22T21-59-09__cl4f1cdd.jsonl.gz",
+   "size": 4991053,
+   "started_ms": 1792705132536,
+   "stopped_ms": 1792706349039,
+   "duration_s": 1216.503,
+   "complete": null
+  },
+  {
    "run_id": "teb41413",
    "rig_id": "rig03-sr",
    "protocol_filename": "p3-sbd-placelearning-coupled-led10.yaml",
