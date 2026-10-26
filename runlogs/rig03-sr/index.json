@@ -64,6 +64,26 @@
    "complete": null
   },
   {
+   "run_id": "yvr11c8j",
+   "rig_id": "rig03-sr",
+   "protocol_filename": "optomotor_led_test.yaml",
+   "protocol_sha256": "018ba022f417cd912a5450e8b537b1a22e5d5e7ed7e1582485e3ec0e5e547016",
+   "experimenter": "ShubhamTR",
+   "genotype": "Hot Cell (HC-Gal4) > CsChrimson",
+   "sex": "F",
+   "fly_number": "4",
+   "age": "5-6 days",
+   "notes": "",
+   "timestamp_start": "2026-10-26T20:10:55.166Z",
+   "tool_version": "Arena Studio v0.95",
+   "file": "optomotor-led-test__shubhamtr__2026-10-26T20-20-37__yvr11c8j.jsonl.gz",
+   "size": 1690990,
+   "started_ms": 1793045455173,
+   "stopped_ms": 1793046037509,
+   "duration_s": 582.336,
+   "complete": null
+  },
+  {
    "run_id": "537k94u8",
    "rig_id": "rig03-sr",
    "protocol_filename": "p3-heisenberg-slashes-full-led25.yaml",
