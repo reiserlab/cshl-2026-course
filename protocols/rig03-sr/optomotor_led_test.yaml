@@ -1,0 +1,237 @@
+version: 3
+
+# OPTOMOTOR WITH AND WITHOUT THE RED OPTO LED (P070 port). No place learning, no closed loop,
+# no heat map. The question: does the fly's optomotor turning change when the opto LED is on?
+# Port of the G4.1 MATLAB protocol p070 (2026-10-26) to the G6 2x10 fly-on-ball rig + Arena Studio.
+#
+# EVERY GRATING TRIAL is the optomotor flank of the SBD place-learning protocols: a 36-degree
+# square-wave grating (20 px per cycle, 10 on / 10 off) in Mode 2 at +80 fps = CW, -80 fps = CCW
+# (144 deg/s), 20 s. Half of the gratings run with the LED held at led_percent for the whole
+# trial, half with the LED off.
+#
+# PANEL INTENSITY = THE SBD PROTOCOL'S: the SBD pattern (p3_sbd_placelearning) draws its lit pixels
+# at GS16 level 6 on a level-0 background (p058 FG_LEVEL 6 / BG_LEVEL 0). The shared
+# course_grating_36deg (SD 5) is drawn at level 15, so this protocol uses
+# p3_sbd_grating_36deg_fg6 (SD 50): the SAME 20 frames as course_grating_36deg with every lit
+# pixel at level 6. The opening all-on frame is p3_sbd_allon_fg6 (SD 51): every pixel at level 6
+# (p070 all_on at FG_LEVEL). Dark frames are the panels off (allOff), as the SBD blanks.
+#
+# LED = THE SBD PROTOCOL'S: ledDrive at led_percent (full heat of the place-learning protocols;
+# 10 / 14 / 20 / 24 % are the levels in use). led_percent is a RUNTIME VARIABLE: change it in
+# the Studio's Run view -> Runtime variables -> Apply, and the new value takes effect at the
+# next trial boundary without editing this file (logged with old -> new). The LED is switched
+# on at the start of an LED grating and off at its end; every other condition starts with the
+# LED off.
+#
+# SESSION LAYOUT (p070 names; durations are the variables below)
+#   all_on            5 s   every pixel at level 6, LED off
+#   dark              10 s  panels off, LED off
+#   5 x [ cw_noled 20 | gap 5 | ccw_noled 20 | dark 10 | cw_led 20 | gap 5 | ccw_led 20 | dark 10 ]
+#   shutdown          1 s
+# = 5 + 10 + 5 x 110 + 1 = 566 s, about 9 min 26 s; 10 gratings with the LED, 10 without.
+# The noLED cycle comes first within every rep (p070 LED_FIRST = false). To counterbalance
+# across flies swap the two halves of the block below (cw_led .. dark first) and save a copy.
+#
+# ANALYSIS (per grating trial, from the run log's FicTrac frames): net heading change, turning
+# velocity, ball speed; LED vs noLED within fly and within direction. The optomotor flanks of
+# the SBD protocols (optomotor_cw / optomotor_ccw, LED off, level 15 grating) are the same
+# stimulus at a different panel brightness.
+
+experiment_info:
+  name: "optomotor_led_test"
+  author: "Shubham Rathore"
+  date_created: 2026-10-26
+
+rig: "./configs/rigs/cshl_g6_2x10_ball.yaml"
+
+plugins:
+  - name: "fictrac"
+    type: "class"
+    matlab:
+      class: "FicTracPlugin"
+    config:
+      bridge_url: "ws://localhost:8765"
+      fictrac_port: 60000
+      proto: "udp"
+      offset: 0
+
+variables:
+  all_on_dur: &all_on_dur 5 # ALL_ON_S: opening, every pixel at level 6, LED off
+  dark_dur: &dark_dur 10 # DARK_S: dark after all_on and after every CW/CCW cycle
+  grating_dur: &grating_dur 20 # GRATING_S: each CW and each CCW grating
+  gap_dur: &gap_dur 5 # GAP_S: dark gap between CW and CCW within a cycle (LED off)
+  shutdown_dur: &shutdown_dur 1
+  grating_frame_rate_cw: &grating_frame_rate_cw 80 # OPTO_FPS (80 fps x 1.8 deg = 144 deg/s), as the SBD flanks
+  grating_frame_rate_ccw: &grating_frame_rate_ccw -80
+  led_percent: &led_percent 14 # LED drive during LED gratings, % — RUNTIME-ADJUSTABLE; = SBD full heat (10/14/20/24 in use)
+
+# Only led_percent may be changed during a run (Run view -> Runtime variables), within 0..100.
+runtime_controls:
+  led_percent:
+    type: number
+    units: percent
+    minimum: 0
+    maximum: 100
+    label: "Opto LED intensity (LED gratings)"
+    description: "ledDrive % during the LED gratings; match the SBD training heat level under test"
+
+experiment:
+  - "all_on"
+  - "dark"
+  - name: "reps"
+    trials:
+      - "grating_cw_noled"
+      - "gap"
+      - "grating_ccw_noled"
+      - "dark"
+      - "grating_cw_led"
+      - "gap"
+      - "grating_ccw_led"
+      - "dark"
+    repetitions: 5
+    randomize: false
+  - "shutdown"
+
+conditions:
+  # opening: every pixel at level 6 (the SBD lit level), LED off
+  - name: "all_on"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p3_sbd_allon_fg6"
+        pattern_ID: 51
+        duration: *all_on_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *all_on_dur
+
+  # dark, LED off
+  - name: "dark"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "stopDisplay"
+      - type: "controller"
+        command_name: "allOff"
+      - type: "wait"
+        duration: *dark_dur
+
+  # dark gap between CW and CCW, LED off
+  - name: "gap"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "stopDisplay"
+      - type: "controller"
+        command_name: "allOff"
+      - type: "wait"
+        duration: *gap_dur
+
+  # grating CW, LED off
+  - name: "grating_cw_noled"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p3_sbd_grating_36deg_fg6"
+        pattern_ID: 50
+        duration: *grating_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *grating_frame_rate_cw
+        gain: 0
+      - type: "wait"
+        duration: *grating_dur
+
+  # grating CCW, LED off
+  - name: "grating_ccw_noled"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p3_sbd_grating_36deg_fg6"
+        pattern_ID: 50
+        duration: *grating_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *grating_frame_rate_ccw
+        gain: 0
+      - type: "wait"
+        duration: *grating_dur
+
+  # grating CW, LED ON at led_percent for the whole trial, off at its end
+  - name: "grating_cw_led"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *led_percent
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p3_sbd_grating_36deg_fg6"
+        pattern_ID: 50
+        duration: *grating_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *grating_frame_rate_cw
+        gain: 0
+      - type: "wait"
+        duration: *grating_dur
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+
+  # grating CCW, LED ON at led_percent for the whole trial, off at its end
+  - name: "grating_ccw_led"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: *led_percent
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "p3_sbd_grating_36deg_fg6"
+        pattern_ID: 50
+        duration: *grating_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: *grating_frame_rate_ccw
+        gain: 0
+      - type: "wait"
+        duration: *grating_dur
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+
+  - name: "shutdown"
+    commands:
+      - type: "controller"
+        command_name: "ledDrive"
+        percent: 0
+      - type: "controller"
+        command_name: "trialParams"
+        pattern: "course_bg"
+        pattern_ID: 23
+        duration: *shutdown_dur
+        mode: 2
+        frame_index: 0
+        frame_rate: 0
+        gain: 0
+      - type: "wait"
+        duration: *shutdown_dur
+      - type: "controller"
+        command_name: "stopDisplay"
+      - type: "controller"
+        command_name: "allOff"

@@ -59,11 +59,13 @@ const entries = [
   ['p3_sbd_placelearning', 'patterns/p3_conditioning/011_p3_sbd_placelearning.pat'],
   ['p3_sbd_placelearning_shift90', 'patterns/p3_conditioning/012_p3_sbd_placelearning_shift90.pat'],
   ['p3_sbd_placelearning_shift180', 'patterns/p3_conditioning/013_p3_sbd_placelearning_shift180.pat'],
-  ['p3_sbd_placelearning_shift270', 'patterns/p3_conditioning/014_p3_sbd_placelearning_shift270.pat']
+  ['p3_sbd_placelearning_shift270', 'patterns/p3_conditioning/014_p3_sbd_placelearning_shift270.pat'],
+  ['p3_sbd_grating_36deg_fg6', 'patterns/p3_conditioning/015_p3_sbd_grating_36deg_fg6.pat'],
+  ['p3_sbd_allon_fg6', 'patterns/p3_conditioning/016_p3_sbd_allon_fg6.pat']
 ].map(([name, source], index) => ({ id: index + 1, name, source }));
 
 // Total number of shared SD patterns. Bump when adding an entry above.
-const BUNDLE_COUNT = 49;
+const BUNDLE_COUNT = 51;
 
 const aliases = new Map([
   ['p0_grating_36deg', 'course_grating_36deg'],
