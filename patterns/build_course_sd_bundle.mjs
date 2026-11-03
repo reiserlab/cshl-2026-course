@@ -62,7 +62,7 @@ const entries = [
   ['p3_sbd_placelearning_shift270', 'patterns/p3_conditioning/014_p3_sbd_placelearning_shift270.pat'],
   ['p3_sbd_grating_36deg_fg6', 'patterns/p3_conditioning/015_p3_sbd_grating_36deg_fg6.pat'],
   ['p3_sbd_allon_fg6', 'patterns/p3_conditioning/016_p3_sbd_allon_fg6.pat'],
-  ['optomotor_30deg', 'patterns/p3_conditioning/017_optomotor_30deg.pat']
+  ['optomotor_60deg', 'patterns/p3_conditioning/017_optomotor_60deg.pat']
 ].map(([name, source], index) => ({ id: index + 1, name, source }));
 
 // Total number of shared SD patterns. Bump when adding an entry above.

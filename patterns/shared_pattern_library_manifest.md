@@ -72,4 +72,4 @@ name/ID pairs.
 | 49 | `049_p3_sbd_placelearning_shift270.pat` | `p3_sbd_placelearning_shift270` | — | `patterns/p3_conditioning/014_p3_sbd_placelearning_shift270.pat` |
 | 50 | `050_p3_sbd_grating_36deg_fg6.pat` | `p3_sbd_grating_36deg_fg6` | — | `patterns/p3_conditioning/015_p3_sbd_grating_36deg_fg6.pat` |
 | 51 | `051_p3_sbd_allon_fg6.pat` | `p3_sbd_allon_fg6` | — | `patterns/p3_conditioning/016_p3_sbd_allon_fg6.pat` |
-| 52 | `052_optomotor_30deg.pat` | `optomotor_30deg` | — | `patterns/p3_conditioning/017_optomotor_30deg.pat` |
+| 52 | `052_optomotor_60deg.pat` | `optomotor_60deg` | — | `patterns/p3_conditioning/017_optomotor_60deg.pat` |
